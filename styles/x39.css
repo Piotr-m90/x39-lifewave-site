@@ -537,6 +537,63 @@ ul { list-style: none; padding: 0; margin: 0; }
   margin: 0 auto;
   max-width: 760px;
   filter: drop-shadow(var(--x-shadow-product));
+  position: relative;
+  animation: x-float 8s ease-in-out infinite;
+}
+@keyframes x-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-hero__visual { animation: none; }
+}
+
+/* Light beam from above — pulses with subtle intensity change */
+.x-hero__visual::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: 50%;
+  width: 3px; height: 100%;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.95) 35%,
+    rgba(232, 197, 168, 0.6) 70%,
+    transparent 100%);
+  filter: blur(0.5px);
+  box-shadow:
+    0 0 24px 4px rgba(255, 255, 255, 0.5),
+    0 0 80px 12px rgba(232, 197, 168, 0.35);
+  transform: translateX(-50%);
+  animation: x-beam-pulse 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes x-beam-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.95; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-hero__visual::before { animation: none; opacity: 0.7; }
+}
+
+/* Crystal shimmer in hero patch — each hex pulses at different phase */
+.x-hero-crystal {
+  animation: x-crystal-pulse 2.6s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.x-hero-crystal:nth-child(1) { animation-delay: 0s; }
+.x-hero-crystal:nth-child(2) { animation-delay: 0.35s; }
+.x-hero-crystal:nth-child(3) { animation-delay: 0.7s; }
+.x-hero-crystal:nth-child(4) { animation-delay: 1.05s; }
+.x-hero-crystal:nth-child(5) { animation-delay: 1.4s; }
+.x-hero-crystal:nth-child(6) { animation-delay: 1.75s; }
+.x-hero-crystal:nth-child(7) { animation-delay: 2.1s; }
+@keyframes x-crystal-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-hero-crystal { animation: none; opacity: 0.9; }
 }
 
 @media (max-width: 1068px) {
@@ -580,6 +637,18 @@ ul { list-style: none; padding: 0; margin: 0; }
   width: 36px; height: 36px;
   border-radius: var(--x-r-pill);
   margin-bottom: 20px;
+  position: relative;
+  animation: x-step-glow 3.4s ease-in-out infinite;
+}
+.x-step:nth-child(2) .x-step__num { animation-delay: 0.4s; }
+.x-step:nth-child(3) .x-step__num { animation-delay: 0.8s; }
+.x-step:nth-child(4) .x-step__num { animation-delay: 1.2s; }
+@keyframes x-step-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 163, 138, 0); }
+  50%      { box-shadow: 0 0 0 8px rgba(201, 163, 138, 0.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-step__num { animation: none; }
 }
 .x-tile--dark .x-step__num,
 .x-tile--dark-2 .x-step__num,
@@ -645,6 +714,28 @@ ul { list-style: none; padding: 0; margin: 0; }
   color: var(--x-accent-ink);
   font-variant-numeric: tabular-nums;
   margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--x-accent-ink) 0%, var(--x-accent) 50%, var(--x-accent-on-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Staggered benefit appearance */
+.x-benefits .x-benefit {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: x-benefit-in 600ms ease-out forwards;
+}
+.x-benefits .x-benefit:nth-child(1) { animation-delay: 100ms; }
+.x-benefits .x-benefit:nth-child(2) { animation-delay: 200ms; }
+.x-benefits .x-benefit:nth-child(3) { animation-delay: 300ms; }
+.x-benefits .x-benefit:nth-child(4) { animation-delay: 400ms; }
+.x-benefits .x-benefit:nth-child(5) { animation-delay: 500ms; }
+@keyframes x-benefit-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-benefits .x-benefit { opacity: 1; transform: none; animation: none; }
 }
 .x-peptide__counter-label {
   font-size: 17px;
@@ -1001,6 +1092,15 @@ ul { list-style: none; padding: 0; margin: 0; }
   border-radius: var(--x-r-lg);
   display: flex; align-items: center; justify-content: center;
   color: white;
+  position: relative;
+  animation: x-shield-pulse 4s ease-in-out infinite;
+}
+@keyframes x-shield-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 163, 138, 0.45), 0 8px 24px rgba(201, 163, 138, 0.25); }
+  50%      { box-shadow: 0 0 0 16px rgba(201, 163, 138, 0), 0 12px 32px rgba(201, 163, 138, 0.35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-guarantee__shield { animation: none; }
 }
 .x-guarantee__shield svg { width: 44px; height: 44px; }
 .x-guarantee__sub {

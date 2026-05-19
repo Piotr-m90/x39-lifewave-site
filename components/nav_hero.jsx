@@ -151,9 +151,9 @@ function HeroPatchSVG() {
       <rect x="60" y="100" width="640" height="180" rx="90" fill="#F8EDE0" opacity="0.92"/>
       {/* Core glow */}
       <ellipse cx="380" cy="190" rx="160" ry="80" fill="url(#patchCore)"/>
-      {/* Crystal hex grid */}
+      {/* Crystal hex grid — each pulses with staggered delay */}
       {[-3,-2,-1,0,1,2,3].map(i => (
-        <g key={i} transform={`translate(${380 + i * 38},190)`}>
+        <g key={i} className="x-hero-crystal" transform={`translate(${380 + i * 38},190)`}>
           <polygon
             points="0,-12 10,-6 10,6 0,12 -10,6 -10,-6"
             fill="rgba(255,255,255,0.65)"
@@ -162,7 +162,7 @@ function HeroPatchSVG() {
           />
           <polygon
             points="0,-6 5,-3 5,3 0,6 -5,3 -5,-3"
-            fill="rgba(232,197,168,0.4)"
+            fill="rgba(232,197,168,0.55)"
           />
         </g>
       ))}
