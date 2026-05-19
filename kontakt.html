@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakt — X39 LifeWave | Piotr Muszyński</title>
+<meta name="description" content="Napisz do Piotra Muszyńskiego — niezależnego dystrybutora X39 LifeWave. Zakup produktu, dołączenie do zespołu, pytania o regenerację.">
+<meta name="theme-color" content="#C9A38A">
+<link rel="canonical" href="https://x39.muszynski.online/kontakt.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23E8C5A8'/%3E%3Cstop offset='100%25' stop-color='%23A8806A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .form { display: grid; gap: 20px; max-width: 560px; margin: 0 auto; }
+  .form label { font-weight: 600; font-size: 14px; color: var(--text); display: block; margin-bottom: 6px; }
+  .form input, .form textarea, .form select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    font: inherit;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+  }
+  .form input:focus, .form textarea:focus, .form select:focus {
+    outline: none;
+    border-color: var(--rose);
+    box-shadow: 0 0 0 4px var(--rose-soft);
+  }
+  .form textarea { min-height: 140px; resize: vertical; }
+  .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 540px) { .form__row { grid-template-columns: 1fr; } }
+  .form__consent { display: flex; gap: 12px; align-items: start; font-size: 13px; color: var(--text-dim); }
+  .form__consent input { width: auto; margin-top: 3px; }
+  .form__msg { padding: 16px; border-radius: var(--r-md); display: none; font-size: 14px; }
+  .form__msg.ok { display: block; background: rgba(74,124,89,0.08); color: var(--success); border: 1px solid rgba(74,124,89,0.3); }
+  .form__msg.err { display: block; background: rgba(213,59,0,0.08); color: #B83A00; border: 1px solid rgba(213,59,0,0.3); }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <span class="nav__logo-dot" aria-hidden="true"></span>
+      <span>X39 · regeneracja komórek</span>
+    </a>
+    <div class="nav__links">
+      <a href="index.html">Start</a>
+      <a href="produkt.html">Produkt</a>
+      <a href="zespol.html">Zespół</a>
+      <a href="o-mnie.html">O mnie</a>
+      <a href="kontakt.html" class="active">Kontakt</a>
+    </div>
+    <div class="nav__cta">
+      <a href="zespol.html#rozmowa" class="btn btn-primary btn-sm">Umów rozmowę</a>
+      <button class="nav__toggle" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('is-open')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" style="padding: 80px 0 40px;">
+  <div class="container container-narrow text-center">
+    <span class="eyebrow">Kontakt</span>
+    <h1 class="hero__title">Napisz <em>do mnie</em>.</h1>
+    <p class="hero__sub" style="max-width:560px;margin-left:auto;margin-right:auto">Pytanie o produkt, zamówienie z dedykowanym linkiem, lub rozmowa o zespole — wszystko zaczyna się tutaj. Odpisuję w 24h roboczych.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <form class="form reveal" id="contactForm" action="https://formspree.io/f/REPLACE_ENDPOINT" method="POST">
+      <div class="form__row">
+        <div>
+          <label for="imie">Imię *</label>
+          <input type="text" id="imie" name="imie" required autocomplete="given-name">
+        </div>
+        <div>
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+      </div>
+      <div class="form__row">
+        <div>
+          <label for="telefon">Telefon (opcjonalnie)</label>
+          <input type="tel" id="telefon" name="telefon" autocomplete="tel">
+        </div>
+        <div>
+          <label for="temat">W jakiej sprawie? *</label>
+          <select id="temat" name="temat" required>
+            <option value="">— wybierz —</option>
+            <option value="zakup-x39">Chcę zamówić plaster X39</option>
+            <option value="pytanie-x39">Pytanie przed zakupem</option>
+            <option value="zespol">Interesuje mnie zespół (biznes)</option>
+            <option value="inne">Inne</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label for="wiadomosc">Wiadomość *</label>
+        <textarea id="wiadomosc" name="wiadomosc" required placeholder="Opisz pokrótce — co Cię interesuje, jaki masz cel, ewentualne pytania."></textarea>
+      </div>
+      <div class="form__consent">
+        <input type="checkbox" id="zgoda" name="zgoda" required>
+        <label for="zgoda" style="font-weight:400">Wyrażam zgodę na przetwarzanie moich danych osobowych przez Piotra Muszyńskiego w celu odpowiedzi na zapytanie. Zapoznałem/am się z <a href="polityka-prywatnosci.html" style="color:var(--rose-deep);text-decoration:underline">polityką prywatności</a>.</label>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg btn-arrow">Wyślij wiadomość</button>
+      <div class="form__msg" id="formMsg"></div>
+    </form>
+
+    <div class="container-narrow text-center mt-6">
+      <p class="small">Albo bezpośrednio: <a href="mailto:muszynski.online@gmail.com" style="color:var(--rose-deep)">muszynski.online@gmail.com</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="disclaimer">
+  <div class="container">
+    <p><strong>Disclaimer medyczny:</strong> Plastry X39 nie są wyrobem medycznym. Konsultuj się ze swoim lekarzem przed rozpoczęciem stosowania.</p>
+    <p><strong>Disclaimer biznesowy:</strong> Niezależny Dystrybutor LifeWave Corporation. Potencjał zarobkowy zależy od indywidualnego zaangażowania. Brak gwarancji konkretnych przychodów.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand">X39 · regeneracja komórek</div>
+        <p class="footer__tagline">Plaster fototerapii LifeWave. Niezależna dystrybucja — Piotr Muszyński.</p>
+      </div>
+      <div>
+        <h4>Produkt</h4>
+        <ul>
+          <li><a href="produkt.html#jak-dziala">Jak działa</a></li>
+          <li><a href="produkt.html#kup">Cena i zakup</a></li>
+          <li><a href="produkt.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Zespół</h4>
+        <ul>
+          <li><a href="zespol.html">Dla partnerów</a></li>
+          <li><a href="o-mnie.html">O mnie</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Prawne</h4>
+        <ul>
+          <li><a href="polityka-prywatnosci.html">Polityka prywatności</a></li>
+          <li><a href="regulamin.html">Regulamin</a></li>
+          <li><a href="cookies.html">Cookies</a></li>
+          <li><a href="impressum.html">Impressum</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div>© 2026 Piotr Muszyński · Independent LifeWave Distributor</div>
+      <div><a href="https://muszynski.online" target="_blank" rel="noopener">muszynski.online</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  // Pre-select temat from URL ?temat=
+  const params = new URLSearchParams(location.search);
+  const t = params.get('temat');
+  if (t) {
+    const sel = document.getElementById('temat');
+    if (sel && [...sel.options].some(o => o.value === t)) sel.value = t;
+  }
+
+  // Form handler — submit to Formspree (Piotr replaces endpoint after creating form)
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const msg = document.getElementById('formMsg');
+    msg.className = 'form__msg';
+    msg.textContent = '';
+
+    const action = form.getAttribute('action');
+    if (action.includes('REPLACE_ENDPOINT')) {
+      msg.className = 'form__msg err';
+      msg.textContent = 'Formularz w przygotowaniu. Napisz bezpośrednio: muszynski.online@gmail.com';
+      return;
+    }
+
+    try {
+      const fd = new FormData(form);
+      const res = await fetch(action, { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
+      if (res.ok) {
+        msg.className = 'form__msg ok';
+        msg.textContent = 'Dziękuję! Odpiszę w ciągu 24h roboczych.';
+        form.reset();
+      } else {
+        throw new Error('Network');
+      }
+    } catch (err) {
+      msg.className = 'form__msg err';
+      msg.textContent = 'Coś poszło nie tak. Napisz bezpośrednio: muszynski.online@gmail.com';
+    }
+  });
+</script>
+</body>
+</html>

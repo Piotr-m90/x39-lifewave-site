@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /regulamin.html
+Disallow: /polityka-prywatnosci.html
+Disallow: /cookies.html
+Disallow: /impressum.html
+
+Sitemap: https://x39.muszynski.online/sitemap.xml
