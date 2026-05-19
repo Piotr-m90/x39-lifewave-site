@@ -441,15 +441,50 @@ function TeamSection() {
           <Title tag="h2" className="x-display-lg">{t.team.title}</Title>
           <p className="x-lead">{t.team.subtitle}</p>
         </div>
-        <div className="x-team-reasons">
-          {t.team.reasons.map((r, i) => (
-            <div key={i} className="x-team-card">
-              <div className="x-team-card__num">{String(i + 1).padStart(2, "0")}</div>
-              <h3>{r.t}</h3>
-              <p>{r.d}</p>
-            </div>
-          ))}
+
+        {/* GROUP 1: Standard LifeWave package — what every distributor gets */}
+        <div className="x-team-group">
+          <div className="x-team-group__head">
+            <h3 className="x-team-group__title">{t.team.standardTitle}</h3>
+            <p className="x-team-group__sub">{t.team.standardSub}</p>
+          </div>
+          <div className="x-team-standard">
+            {t.team.standardItems.map((it, i) => (
+              <div key={i} className="x-team-standard__card">
+                <div className="x-team-standard__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    {i === 0 && <><circle cx="12" cy="12" r="9"/><path d="M8 14l3 3 5-7"/></>}
+                    {i === 1 && <><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></>}
+                    {i === 2 && <><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="12" r="3"/><path d="M9 6h6m-6 12h6"/></>}
+                    {i === 3 && <><path d="M4 4h16v16H4z"/><path d="M4 8h16M8 4v4"/></>}
+                    {i === 4 && <><path d="M4 19V5a2 2 0 0 1 2-2h11l3 3v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 9h6m-6 4h6m-6 4h4"/></>}
+                    {i === 5 && <><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a14 14 0 0 1 0 20M12 2a14 14 0 0 0 0 20"/></>}
+                  </svg>
+                </div>
+                <h4>{it.t}</h4>
+                <p>{it.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* GROUP 2: My extra — what only my team offers */}
+        <div className="x-team-group x-team-group--extra">
+          <div className="x-team-group__head">
+            <h3 className="x-team-group__title">{t.team.extraTitle}</h3>
+            <p className="x-team-group__sub">{t.team.extraSub}</p>
+          </div>
+          <div className="x-team-reasons">
+            {t.team.reasons.map((r, i) => (
+              <div key={i} className="x-team-card">
+                <div className="x-team-card__num">{String(i + 1).padStart(2, "0")}</div>
+                <h3>{r.t}</h3>
+                <p>{r.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="x-team-leaders">
           <div className="x-team-leaders__title">{t.team.leaders.title}</div>
           <div className="x-team-leaders__sub">{t.team.leaders.sub}</div>

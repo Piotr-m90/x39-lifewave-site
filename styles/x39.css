@@ -1188,13 +1188,110 @@ ul { list-style: none; padding: 0; margin: 0; }
   margin-top: 20px;
 }
 
-/* Team reasons */
+/* Team group wrapper — 2 groups: standard LifeWave + my extra */
+.x-team-group {
+  max-width: 1080px;
+  margin: 0 auto 56px;
+}
+.x-team-group--extra { margin-top: 80px; }
+.x-team-group__head {
+  text-align: center;
+  margin-bottom: 36px;
+  padding: 0 24px;
+}
+.x-team-group__title {
+  font-family: var(--x-font-display);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--x-body-on-dark);
+  margin: 0 0 10px;
+}
+.x-team-group--extra .x-team-group__title {
+  color: var(--x-accent-on-dark);
+}
+.x-team-group__sub {
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--x-body-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Standard LifeWave package — 3 column grid of icon cards */
+.x-team-standard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 833px) { .x-team-standard { grid-template-columns: 1fr; } }
+@media (min-width: 834px) and (max-width: 1023px) { .x-team-standard { grid-template-columns: repeat(2, 1fr); } }
+.x-team-standard__card {
+  padding: 28px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--x-r-lg);
+  transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1), border-color 280ms, background 280ms;
+}
+.x-team-standard__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(232, 197, 168, 0.32);
+  background: rgba(232, 197, 168, 0.04);
+}
+.x-team-standard__icon {
+  width: 40px; height: 40px;
+  border-radius: var(--x-r-md);
+  background: rgba(232, 197, 168, 0.10);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--x-accent-on-dark);
+  margin-bottom: 16px;
+}
+.x-team-standard__icon svg { width: 22px; height: 22px; }
+.x-team-standard__card h4 {
+  font-family: var(--x-font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--x-body-on-dark);
+  margin: 0 0 8px;
+}
+.x-team-standard__card p {
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--x-body-muted);
+  margin: 0;
+}
+
+/* Stagger fade-in dla standard cards (replay przy re-entry — używa is-pending) */
+.x-reveal .x-team-standard__card,
+.x-reveal.is-pending .x-team-standard__card {
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 280ms,
+              background 280ms;
+}
+.x-reveal.is-pending .x-team-standard__card { opacity: 0; transform: translateY(16px); }
+.x-reveal .x-team-standard__card { opacity: 1; transform: translateY(0); }
+.x-reveal .x-team-standard__card:nth-child(1) { transition-delay: 80ms; }
+.x-reveal .x-team-standard__card:nth-child(2) { transition-delay: 180ms; }
+.x-reveal .x-team-standard__card:nth-child(3) { transition-delay: 280ms; }
+.x-reveal .x-team-standard__card:nth-child(4) { transition-delay: 380ms; }
+.x-reveal .x-team-standard__card:nth-child(5) { transition-delay: 480ms; }
+.x-reveal .x-team-standard__card:nth-child(6) { transition-delay: 580ms; }
+@media (prefers-reduced-motion: reduce) {
+  .x-reveal .x-team-standard__card,
+  .x-reveal.is-pending .x-team-standard__card { opacity: 1; transform: none; transition: none; }
+}
+
+/* Team reasons — existing block (now inside x-team-group--extra) */
 .x-team-reasons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
+  gap: 24px;
   max-width: 1080px;
-  margin: 56px auto 0;
+  margin: 0 auto;
 }
 @media (max-width: 833px) { .x-team-reasons { grid-template-columns: 1fr; } }
 .x-team-card {
