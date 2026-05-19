@@ -541,7 +541,8 @@ const COPY = {
 const AppCtx = createContext(null);
 const useApp = () => useContext(AppCtx);
 
-/* Reveal-on-scroll hook */
+/* Reveal-on-scroll hook — LIVE mode: toggles is-pending on every re-entry
+   so sections fade-in again when the user scrolls back through them. */
 function useReveal() {
   const ref = useRef(null);
   useEffect(() => {
@@ -550,15 +551,21 @@ function useReveal() {
     const target = el.classList.contains("x-reveal") ? el : el.querySelector(".x-reveal");
     if (!target) return;
     target.classList.add("is-pending");
-    const fallback = setTimeout(() => target.classList.remove("is-pending"), 500);
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) { target.classList.remove("is-pending"); clearTimeout(fallback); io.disconnect(); }
+        if (e.isIntersecting) {
+          target.classList.remove("is-pending");
+        } else {
+          // Re-arm only if user scrolled completely past — element fully out of view
+          if (e.boundingClientRect.bottom < 0 || e.boundingClientRect.top > window.innerHeight) {
+            target.classList.add("is-pending");
+          }
+        }
       }),
-      { threshold: 0, rootMargin: "0px 0px -80px 0px" }
+      { threshold: [0, 0.1], rootMargin: "0px 0px -60px 0px" }
     );
     io.observe(el);
-    return () => { io.disconnect(); clearTimeout(fallback); };
+    return () => io.disconnect();
   }, []);
   return ref;
 }

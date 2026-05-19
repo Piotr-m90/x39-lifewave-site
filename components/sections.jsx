@@ -52,24 +52,37 @@ function PeptideSection() {
 
   useEffectS(() => {
     if (!counterRef.current) return;
+    let frameId = null;
+    let isRunning = false;
+    const runCount = () => {
+      if (isRunning) return;
+      isRunning = true;
+      setCount(0);
+      const dur = 1800;
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setCount(Math.floor(eased * target));
+        if (p < 1) frameId = requestAnimationFrame(tick);
+        else isRunning = false;
+      };
+      frameId = requestAnimationFrame(tick);
+    };
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          const dur = 1800;
-          const start = performance.now();
-          const tick = (now) => {
-            const p = Math.min(1, (now - start) / dur);
-            const eased = 1 - Math.pow(1 - p, 3);
-            setCount(Math.floor(eased * target));
-            if (p < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-          io.disconnect();
+          runCount();
+        } else if (e.boundingClientRect.bottom < 0 || e.boundingClientRect.top > window.innerHeight) {
+          // fully out of view — reset for next entry
+          if (frameId) cancelAnimationFrame(frameId);
+          isRunning = false;
+          setCount(0);
         }
       });
-    }, { threshold: 0.4 });
+    }, { threshold: [0, 0.4] });
     io.observe(counterRef.current);
-    return () => io.disconnect();
+    return () => { io.disconnect(); if (frameId) cancelAnimationFrame(frameId); };
   }, [target]);
 
   const fmt = (n) => new Intl.NumberFormat(locale === "en" ? "en-US" : locale === "de" ? "de-DE" : "pl-PL").format(n);
@@ -124,8 +137,15 @@ function AgeSection() {
   useEffectS(() => {
     if (!svgRef.current) return;
     const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { setDrawn(true); io.disconnect(); } });
-    }, { threshold: 0.3 });
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setDrawn(true);
+        } else if (e.boundingClientRect.bottom < 0 || e.boundingClientRect.top > window.innerHeight) {
+          // reset for next entry — re-draw curve every time
+          setDrawn(false);
+        }
+      });
+    }, { threshold: [0, 0.3] });
     io.observe(svgRef.current);
     return () => io.disconnect();
   }, []);
