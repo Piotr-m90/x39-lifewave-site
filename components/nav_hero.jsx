@@ -28,17 +28,25 @@ function LangPicker() {
 function GlobalNav() {
   const { t } = useApp();
   const [open, setOpen] = useStateNH(false);
+  // Context-aware: on team page, anchor links should go to index.html; on home, team link goes to zespol.html
+  const onTeamPage = useMemoNH(() => {
+    try { return location.pathname.endsWith("zespol.html"); } catch(e) { return false; }
+  }, []);
+  const homeAnchor = (anchor) => onTeamPage ? "index.html" + anchor : anchor;
+  const homeRoot = onTeamPage ? "index.html" : "#top";
+  const teamHref = onTeamPage ? "#team-top" : "zespol.html";
+
   const items = [
-    { href: "#science", k: "science" },
-    { href: "#product", k: "product" },
-    { href: "#proof", k: "proof" },
-    { href: "#team", k: "team" },
-    { href: "#faq", k: "faq" },
+    { href: homeAnchor("#science"), k: "science" },
+    { href: homeAnchor("#product"), k: "product" },
+    { href: homeAnchor("#proof"), k: "proof" },
+    { href: teamHref, k: "team" },
+    { href: homeAnchor("#faq"), k: "faq" },
   ];
   return (
     <nav className={"x-nav-global" + (open ? " is-open" : "")} aria-label="Main">
       <div className="x-nav-global__inner">
-        <a href="#top" className="x-nav-global__logo" aria-label="X39 home" onClick={() => setOpen(false)}>
+        <a href={homeRoot} className="x-nav-global__logo" aria-label="X39 home" onClick={() => setOpen(false)}>
           <span className="x-nav-global__dot" aria-hidden="true"></span>
           X39
         </a>
@@ -70,6 +78,30 @@ function GlobalNav() {
 function SubNav() {
   const { t } = useApp();
   const buyLink = (window.X39_CONFIG && window.X39_CONFIG.links.buy) || "#buy";
+  const tidycal = (window.X39_CONFIG && window.X39_CONFIG.links.tidycal) || "#rozmowa";
+  const onTeamPage = useMemoNH(() => {
+    try { return location.pathname.endsWith("zespol.html"); } catch(e) { return false; }
+  }, []);
+
+  if (onTeamPage) {
+    // On team page — sub-nav focused on team navigation + book CTA
+    return (
+      <div className="x-nav-sub" role="navigation" aria-label="Section">
+        <div className="x-nav-sub__inner">
+          <a href="#team-top" className="x-nav-sub__brand">X39 · Zespół</a>
+          <div className="x-nav-sub__links">
+            <a href="#standard">{t.team.standardTitle?.split(" ").slice(0, 2).join(" ") || "Pakiet"}</a>
+            <a href="#extra">Mój zespół</a>
+            <a href="#leaders">Liderzy</a>
+            <a href={tidycal.startsWith("http") ? tidycal : "#rozmowa"}
+               target={tidycal.startsWith("http") ? "_blank" : "_self"}
+               rel={tidycal.startsWith("http") ? "noopener" : undefined}
+               className="x-btn x-btn--utility">{t.team.cta}</a>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="x-nav-sub" role="navigation" aria-label="Section">
       <div className="x-nav-sub__inner">
@@ -176,4 +208,37 @@ function HeroPatchSVG() {
   );
 }
 
-Object.assign(window, { LangPicker, GlobalNav, SubNav, Hero });
+/* ------------------------------------------------------------------
+   TeamHero — used on zespol.html, focused recruitment headline
+   ------------------------------------------------------------------ */
+function TeamHero() {
+  const { t } = useApp();
+  const tidycal = (window.X39_CONFIG && window.X39_CONFIG.links.tidycal) || "#rozmowa";
+  const h = t.teamHero || {
+    eyebrow: "Biznes z polecania", title: "Dołącz do zespołu\nregeneracji.",
+    sub: "Selekcja, nie obietnica.", cta: "Umów rozmowę", ghost: "Zobacz produkt"
+  };
+  return (
+    <section className="x-hero x-hero--team" id="team-top">
+      <div className="x-hero__inner">
+        <div className="x-team-hero__breadcrumb">
+          <a href="index.html" className="x-tlink">{t.nav.backHome}</a>
+        </div>
+        <span className="x-hero__eyebrow" style={{display: "inline-block", marginBottom: 16}}>{h.eyebrow}</span>
+        <h1 className="x-hero-display">
+          {h.title.split("\n").map((l, i) => <span key={i} style={{display: "block"}}>{l}</span>)}
+        </h1>
+        <p className="x-lead x-hero__tagline">{h.sub}</p>
+        <div className="x-hero__ctas">
+          <a href={tidycal.startsWith("http") ? tidycal : "#rozmowa"}
+             target={tidycal.startsWith("http") ? "_blank" : "_self"}
+             rel={tidycal.startsWith("http") ? "noopener" : undefined}
+             className="x-btn x-btn--primary">{h.cta}</a>
+          <a href="index.html" className="x-btn x-btn--ghost">{h.ghost}</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { LangPicker, GlobalNav, SubNav, Hero, TeamHero });

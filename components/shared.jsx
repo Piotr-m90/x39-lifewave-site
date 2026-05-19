@@ -7,7 +7,14 @@ const { useState, useEffect, useRef, useContext, createContext, useMemo } = Reac
    ------------------------------------------------------------------ */
 const COPY = {
   pl: {
-    nav: { science: "Nauka", product: "Produkt", proof: "Dowody", team: "Zespół", faq: "FAQ", buy: "Kup plaster" },
+    nav: { science: "Nauka", product: "Produkt", proof: "Dowody", team: "Zespół", faq: "FAQ", buy: "Kup plaster", backHome: "← Strona główna" },
+    teamHero: {
+      eyebrow: "Biznes z polecania · LifeWave",
+      title: "Dołącz do zespołu\nregeneracji.",
+      sub: "8-12 partnerów na rok. Selekcja, nie obietnica. Bez gigantycznych obietnic — konkretne materiały, eventy, mentoring i system LifeWave.",
+      cta: "Umów 15-min rozmowę",
+      ghost: "Zobacz produkt",
+    },
     hero: {
       eyebrow: "LifeWave · Fototerapia · Komórki macierzyste",
       sceneA: { k: "Światło.", v: "Sygnał, który zna Twoje ciało." },
@@ -186,7 +193,7 @@ const COPY = {
       tagline: "Plaster fototerapii LifeWave. Niezależna dystrybucja — Piotr Muszyński.",
       cols: [
         { title: "Produkt", links: [["Jak działa", "#science"], ["Cena i zakup", "#buy"], ["FAQ", "#faq"]] },
-        { title: "Zespół", links: [["Dla partnerów", "#team"], ["O mnie", "#about"], ["Kontakt", "#contact"]] },
+        { title: "Zespół", links: [["Dla partnerów", "zespol.html"], ["O mnie", "#about"], ["Kontakt", "#contact"]] },
         { title: "Prawne", links: [["Polityka prywatności", "polityka-prywatnosci.html"], ["Regulamin", "regulamin.html"], ["Cookies", "cookies.html"], ["Impressum", "impressum.html"]] },
       ],
       legal: "© 2026 Piotr Muszyński · Independent LifeWave Distributor",
@@ -203,7 +210,14 @@ const COPY = {
   },
 
   en: {
-    nav: { science: "Science", product: "Product", proof: "Evidence", team: "Team", faq: "FAQ", buy: "Buy patch" },
+    nav: { science: "Science", product: "Product", proof: "Evidence", team: "Team", faq: "FAQ", buy: "Buy patch", backHome: "← Home" },
+    teamHero: {
+      eyebrow: "Referral business · LifeWave",
+      title: "Join the regeneration\nteam.",
+      sub: "8-12 partners per year. Selection, not a promise. No giant promises — concrete materials, events, mentoring and the LifeWave system.",
+      cta: "Book a 15-min call",
+      ghost: "See the product",
+    },
     hero: {
       eyebrow: "LifeWave · Phototherapy · Stem Cells",
       sceneA: { k: "Light.", v: "A signal your body already knows." },
@@ -382,7 +396,7 @@ const COPY = {
       tagline: "LifeWave phototherapy patch. Independent distribution — Piotr Muszyński.",
       cols: [
         { title: "Product", links: [["How it works", "#science"], ["Pricing & purchase", "#buy"], ["FAQ", "#faq"]] },
-        { title: "Team", links: [["For partners", "#team"], ["About me", "#about"], ["Contact", "#contact"]] },
+        { title: "Team", links: [["For partners", "zespol.html"], ["About me", "#about"], ["Contact", "#contact"]] },
         { title: "Legal", links: [["Privacy policy", "polityka-prywatnosci.html"], ["Terms", "regulamin.html"], ["Cookies", "cookies.html"], ["Impressum", "impressum.html"]] },
       ],
       legal: "© 2026 Piotr Muszyński · Independent LifeWave Distributor",
@@ -399,7 +413,14 @@ const COPY = {
   },
 
   de: {
-    nav: { science: "Wissenschaft", product: "Produkt", proof: "Beweise", team: "Team", faq: "FAQ", buy: "Patch kaufen" },
+    nav: { science: "Wissenschaft", product: "Produkt", proof: "Beweise", team: "Team", faq: "FAQ", buy: "Patch kaufen", backHome: "← Startseite" },
+    teamHero: {
+      eyebrow: "Empfehlungsgeschäft · LifeWave",
+      title: "Tritt dem Regenerations-\nteam bei.",
+      sub: "8-12 Partner pro Jahr. Auswahl, kein Versprechen. Keine riesigen Versprechen — konkrete Materialien, Events, Mentoring und das LifeWave-System.",
+      cta: "15-Min Gespräch buchen",
+      ghost: "Produkt ansehen",
+    },
     hero: {
       eyebrow: "LifeWave · Phototherapie · Stammzellen",
       sceneA: { k: "Licht.", v: "Ein Signal, das dein Körper kennt." },
@@ -578,7 +599,7 @@ const COPY = {
       tagline: "LifeWave Phototherapie-Patch. Unabhängige Distribution — Piotr Muszyński.",
       cols: [
         { title: "Produkt", links: [["So funktioniert es", "#science"], ["Preis & Kauf", "#buy"], ["FAQ", "#faq"]] },
-        { title: "Team", links: [["Für Partner", "#team"], ["Über mich", "#about"], ["Kontakt", "#contact"]] },
+        { title: "Team", links: [["Für Partner", "zespol.html"], ["Über mich", "#about"], ["Kontakt", "#contact"]] },
         { title: "Rechtliches", links: [["Datenschutz", "polityka-prywatnosci.html"], ["AGB", "regulamin.html"], ["Cookies", "cookies.html"], ["Impressum", "impressum.html"]] },
       ],
       legal: "© 2026 Piotr Muszyński · Independent LifeWave Distributor",

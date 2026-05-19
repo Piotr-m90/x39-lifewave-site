@@ -3,23 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>X39 LifeWave — Aktywuj swoje komórki macierzyste bez iniekcji</title>
-<meta name="description" content="Plaster X39 to fototerapia, która aktywuje Twoje własne komórki macierzyste przez peptyd miedzi GHK-Cu. Bez iniekcji, bez chemii. 100+ patentów, 80+ badań, 90 dni gwarancji.">
+<title>Zespół X39 — Dołącz do biznesu regeneracji | LifeWave Distributor</title>
+<meta name="description" content="Buduję wyselekcjonowany zespół dystrybutorów X39 LifeWave w Polsce i polonii DACH. 8-12 partnerów na rok. Standardowy pakiet LifeWave + EXTRA materiały, eventy, mentoring.">
 <meta name="theme-color" content="#C9A38A">
 
-<meta property="og:title" content="X39 LifeWave — Aktywuj swoje komórki macierzyste bez iniekcji">
-<meta property="og:description" content="Plaster fototerapii, który resetuje Twoje komórki do młodszego stanu. 100+ patentów, 80+ badań, 90 dni gwarancji.">
+<meta property="og:title" content="Zespół X39 LifeWave — Dołącz do biznesu regeneracji">
+<meta property="og:description" content="Selekcja, nie obietnica. Standardowy pakiet LifeWave + materiały, eventy, mentoring 3 miesiące.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://x39.muszynski.online">
-<meta property="og:image" content="https://res.cloudinary.com/dyw1pi3nt/image/upload/w_1200,h_630,c_fill/v1/lifewave-x39/hero-patch.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://x39.fabrykatresci.tech/zespol.html">
 
-<link rel="canonical" href="https://x39.muszynski.online/">
-<link rel="alternate" hreflang="pl" href="https://x39.muszynski.online/">
-<link rel="alternate" hreflang="en" href="https://x39.muszynski.online/?lang=en">
-<link rel="alternate" hreflang="de" href="https://x39.muszynski.online/?lang=de">
+<link rel="canonical" href="https://x39.fabrykatresci.tech/zespol.html">
+<link rel="alternate" hreflang="pl" href="https://x39.fabrykatresci.tech/zespol.html">
+<link rel="alternate" hreflang="en" href="https://x39.fabrykatresci.tech/zespol.html?lang=en">
+<link rel="alternate" hreflang="de" href="https://x39.fabrykatresci.tech/zespol.html?lang=de">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23F4D9C2'/%3E%3Cstop offset='50%25' stop-color='%23E8C5A8'/%3E%3Cstop offset='100%25' stop-color='%23A8806A'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
 
@@ -39,7 +35,7 @@
   #x-loading {
     position: fixed; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    background: #ffffff;
+    background: #1A1410;
     z-index: 9999;
     transition: opacity 400ms ease, visibility 400ms;
   }
@@ -54,45 +50,6 @@
   }
   @keyframes x-spin-load { to { transform: rotate(360deg); } }
 </style>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Product",
-      "name": "Plaster X39 LifeWave",
-      "description": "Plaster fototerapii aktywujący własne komórki macierzyste przez peptyd miedzi GHK-Cu.",
-      "brand": { "@type": "Brand", "name": "LifeWave" },
-      "category": "Wellness / Fototerapia",
-      "image": "https://res.cloudinary.com/dyw1pi3nt/image/upload/v1/lifewave-x39/hero-patch.png",
-      "offers": {
-        "@type": "Offer",
-        "url": "https://x39.muszynski.online/#buy",
-        "priceCurrency": "PLN",
-        "availability": "https://schema.org/InStock",
-        "seller": { "@type": "Person", "name": "Piotr Muszyński" }
-      }
-    },
-    {
-      "@type": "Organization",
-      "name": "X39 dystrybucja — Piotr Muszyński",
-      "url": "https://x39.muszynski.online",
-      "founder": { "@type": "Person", "name": "Piotr Muszyński" },
-      "sameAs": ["https://muszynski.online"]
-    },
-    {
-      "@type": "VideoObject",
-      "name": "Dr Don VerHulst i bioelektrody — opinia lekarza",
-      "description": "Wywiad z lekarzem medycyny Dr Don VerHulst (40 lat praktyki) o plastrach X39 LifeWave i fototerapii.",
-      "thumbnailUrl": "https://i.ytimg.com/vi/emaauU2X8vw/maxresdefault.jpg",
-      "uploadDate": "2026-01-01",
-      "duration": "PT10M15S",
-      "embedUrl": "https://www.youtube-nocookie.com/embed/emaauU2X8vw"
-    }
-  ]
-}
-</script>
 </head>
 <body>
 
@@ -107,7 +64,6 @@
 const { useState, useEffect } = React;
 
 function detectLocale() {
-  // Priority: URL ?lang=, localStorage, browser, default 'pl'
   try {
     const urlLang = new URLSearchParams(location.search).get("lang");
     if (urlLang && ["pl","en","de"].includes(urlLang)) return urlLang;
@@ -120,21 +76,20 @@ function detectLocale() {
   return ["pl","en","de"].includes(browser) ? browser : "pl";
 }
 
-function App() {
+function TeamApp() {
   const [locale, setLocale] = useState(detectLocale());
   const t = COPY[locale];
 
   useEffect(() => {
     document.documentElement.lang = locale;
     document.title = locale === "pl"
-      ? "X39 LifeWave — Aktywuj swoje komórki macierzyste bez iniekcji"
+      ? "Zespół X39 — Dołącz do biznesu regeneracji | LifeWave Distributor"
       : locale === "en"
-        ? "X39 LifeWave — Activate your stem cells without injections"
-        : "X39 LifeWave — Aktiviere deine Stammzellen ohne Injektionen";
+        ? "X39 Team — Join the regeneration business | LifeWave Distributor"
+        : "X39 Team — Tritt dem Regenerationsgeschäft bei | LifeWave Distributor";
   }, [locale]);
 
   useEffect(() => {
-    // Hide loading splash once mounted
     const el = document.getElementById("x-loading");
     if (el) {
       requestAnimationFrame(() => el.classList.add("is-hidden"));
@@ -146,24 +101,15 @@ function App() {
     <AppCtx.Provider value={{ t, locale, setLocale }}>
       <GlobalNav/>
       <SubNav/>
-      <Hero/>
-      <BodyBatterySection/>
-      <PeptideSection/>
-      <AgeSection/>
-      <CompareSection/>
-      <AuthoritySection/>
-      <TimelineSection/>
-      <HowSection/>
-      <ScienceSection/>
-      <GuaranteeSection/>
-      <FaqSection/>
+      <TeamHero/>
+      <TeamSection/>
       <ContactSection/>
       <Footer/>
     </AppCtx.Provider>
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+ReactDOM.createRoot(document.getElementById("root")).render(<TeamApp/>);
 </script>
 
 </body>
