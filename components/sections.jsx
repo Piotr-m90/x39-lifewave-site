@@ -1,30 +1,34 @@
 /* global React, COPY, AppCtx, useApp, useReveal */
 const { useState: useStateS, useEffect: useEffectS, useRef: useRefS } = React;
 
+/* Helper — split title by \n into spans */
+function Title({ tag = "h2", className = "x-display-lg", children }) {
+  const Tag = tag;
+  const parts = String(children).split("\n");
+  return <Tag className={className}>{parts.map((l, i) => <span key={i}>{l}{i < parts.length - 1 && <br/>}</span>)}</Tag>;
+}
+
 /* ------------------------------------------------------------------
-   1. BodyBatterySection — 3 step explanation (Twoje ciało jest baterią)
+   1. BodyBatterySection — DARK tile · 3 step explanation
+   "Your body is a battery."
    ------------------------------------------------------------------ */
 function BodyBatterySection() {
   const { t } = useApp();
   const ref = useReveal();
   return (
-    <section ref={ref} className="x-section" id="science">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.body.eyebrow}</span>
-          <h2 className="x-section__title">{t.body.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub">{t.body.subtitle}</p>
+    <section ref={ref} className="x-tile x-tile--dark" id="science">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.body.title}</Title>
+          <p className="x-lead">{t.body.subtitle}</p>
         </div>
         <div className="x-steps">
           {t.body.steps.map((s, i) => (
-            <React.Fragment key={i}>
-              <article className="x-step">
-                <div className="x-step__num">{s.n}</div>
-                <h3 className="x-step__title">{s.t}</h3>
-                <p className="x-step__desc">{s.d}</p>
-              </article>
-              {i < t.body.steps.length - 1 && <div className="x-steps__arrow" aria-hidden="true">→</div>}
-            </React.Fragment>
+            <article key={i} className="x-step">
+              <div className="x-step__num">{s.n}</div>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </article>
           ))}
         </div>
         <figure className="x-quote">
@@ -37,10 +41,10 @@ function BodyBatterySection() {
 }
 
 /* ------------------------------------------------------------------
-   2. PeptideSection — GHK-Cu + 4200 genes counter + 5 benefits
+   2. PeptideSection — LIGHT (parchment) · 4200 genes counter
    ------------------------------------------------------------------ */
 function PeptideSection() {
-  const { t } = useApp();
+  const { t, locale } = useApp();
   const ref = useReveal();
   const [count, setCount] = useStateS(0);
   const target = parseInt(t.peptide.reset.replace(/[^0-9]/g, ""), 10) || 4200;
@@ -48,15 +52,14 @@ function PeptideSection() {
 
   useEffectS(() => {
     if (!counterRef.current) return;
-    const io = new IntersectionObserver((entries) => {
+    const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          // animate from 0 to target
           const dur = 1800;
           const start = performance.now();
           const tick = (now) => {
             const p = Math.min(1, (now - start) / dur);
-            const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+            const eased = 1 - Math.pow(1 - p, 3);
             setCount(Math.floor(eased * target));
             if (p < 1) requestAnimationFrame(tick);
           };
@@ -69,25 +72,20 @@ function PeptideSection() {
     return () => io.disconnect();
   }, [target]);
 
-  // Format count tak żeby z PL/EN/DE separators
-  const fmt = (n) => {
-    const { locale } = useApp();
-    return new Intl.NumberFormat(locale === "en" ? "en-US" : locale === "de" ? "de-DE" : "pl-PL").format(n);
-  };
+  const fmt = (n) => new Intl.NumberFormat(locale === "en" ? "en-US" : locale === "de" ? "de-DE" : "pl-PL").format(n);
 
   return (
-    <section ref={ref} className="x-section x-section--soft">
-      <div className="x-container x-reveal">
-        <div className="x-grid-2 x-grid-2--align-start">
-          <div className="x-peptide__copy">
-            <span className="x-eyebrow">{t.peptide.eyebrow}</span>
-            <h2 className="x-section__title">{t.peptide.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-            <p className="x-section__sub">{t.peptide.subtitle}</p>
-            <div ref={counterRef} className="x-peptide__counter">
-              <span className="x-peptide__num">{fmt(count)}</span>
-              <span className="x-peptide__label">{t.peptide.resetLabel}</span>
-            </div>
-            <p className="x-source">{t.peptide.source}</p>
+    <section ref={ref} className="x-tile x-tile--parchment">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.peptide.title}</Title>
+          <p className="x-lead">{t.peptide.subtitle}</p>
+        </div>
+        <div className="x-peptide">
+          <div ref={counterRef}>
+            <div className="x-peptide__counter">{fmt(count)}</div>
+            <p className="x-peptide__counter-label">{t.peptide.resetLabel}</p>
+            <p className="x-peptide__source">{t.peptide.source}</p>
           </div>
           <ul className="x-benefits">
             {t.peptide.benefits.map((b, i) => (
@@ -102,8 +100,8 @@ function PeptideSection() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="x-benefit__title">{b.t}</h3>
-                  <p className="x-benefit__desc">{b.d}</p>
+                  <div className="x-benefit__title">{b.t}</div>
+                  <div className="x-benefit__desc">{b.d}</div>
                 </div>
               </li>
             ))}
@@ -115,7 +113,7 @@ function PeptideSection() {
 }
 
 /* ------------------------------------------------------------------
-   3. AgeSection — animated decay curve (30→50%, 60→10-20%)
+   3. AgeSection — LIGHT tile · animated decay curve
    ------------------------------------------------------------------ */
 function AgeSection() {
   const { t } = useApp();
@@ -133,72 +131,70 @@ function AgeSection() {
   }, []);
 
   return (
-    <section ref={ref} className="x-section">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.age.eyebrow}</span>
-          <h2 className="x-section__title">{t.age.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub">{t.age.subtitle}</p>
+    <section ref={ref} className="x-tile x-tile--light">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.age.title}</Title>
+          <p className="x-lead">{t.age.subtitle}</p>
         </div>
         <div ref={svgRef} className="x-age-chart">
-          <svg viewBox="0 0 800 400" className={drawn ? "is-drawn" : ""}>
+          <svg viewBox="0 0 800 380" className={drawn ? "is-drawn" : ""} role="img" aria-label="Stem cell decay curve">
             <defs>
-              <linearGradient id="curveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <linearGradient id="ageCurveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#E8C5A8"/>
-                <stop offset="50%" stopColor="#C9A38A"/>
                 <stop offset="100%" stopColor="#A8806A"/>
               </linearGradient>
-              <linearGradient id="fillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#C9A38A" stopOpacity="0.25"/>
+              <linearGradient id="ageFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#C9A38A" stopOpacity="0.18"/>
                 <stop offset="100%" stopColor="#C9A38A" stopOpacity="0"/>
               </linearGradient>
             </defs>
-            {/* axes */}
-            <g className="x-age-axes" stroke="#E0DDD8" strokeWidth="1">
-              <line x1="80" y1="350" x2="760" y2="350"/>
-              <line x1="80" y1="50" x2="80" y2="350"/>
+            <g stroke="#e0e0e0" strokeWidth="1">
+              <line x1="60" y1="330" x2="760" y2="330"/>
+              <line x1="60" y1="50" x2="60" y2="330"/>
             </g>
-            {/* horizontal gridlines */}
             {[0, 25, 50, 75, 100].map((v, i) => (
               <g key={i}>
-                <line x1="80" y1={350 - v * 3} x2="760" y2={350 - v * 3} stroke="#F0EDE8" strokeWidth="1"/>
-                <text x="65" y={355 - v * 3} textAnchor="end" fontSize="11" fill="#9A9A9A">{v}%</text>
+                <line x1="60" y1={330 - v * 2.6} x2="760" y2={330 - v * 2.6} stroke="#f5f5f7"/>
+                <text x="48" y={334 - v * 2.6} textAnchor="end" fontSize="11" fontFamily="SF Pro Text, Inter, sans-serif" fill="#7a7a7a">{v}%</text>
               </g>
             ))}
-            {/* x-labels */}
             {[0, 20, 30, 40, 50, 60, 80].map((a, i) => (
-              <text key={i} x={80 + (a / 80) * 680} y="372" textAnchor="middle" fontSize="11" fill="#9A9A9A">{a}</text>
+              <text key={i} x={60 + (a / 80) * 700} y="352" textAnchor="middle"
+                    fontSize="11" fontFamily="SF Pro Text, Inter, sans-serif" fill="#7a7a7a">{a}</text>
             ))}
-            {/* decay curve (path: starts top-left, S-curve down) */}
             <path
               className="x-age-curve"
-              d="M 80,50 Q 230,55 305,200 T 530,320 T 760,335"
+              d="M 60,50 Q 220,55 290,190 T 510,300 T 760,318"
               fill="none"
-              stroke="url(#curveGrad)"
-              strokeWidth="4"
+              stroke="url(#ageCurveGrad)"
+              strokeWidth="3"
               strokeLinecap="round"
             />
             <path
               className="x-age-fill"
-              d="M 80,50 Q 230,55 305,200 T 530,320 T 760,335 L 760,350 L 80,350 Z"
-              fill="url(#fillGrad)"
+              d="M 60,50 Q 220,55 290,190 T 510,300 T 760,318 L 760,330 L 60,330 Z"
+              fill="url(#ageFillGrad)"
             />
-            {/* points 30 / 60 */}
-            <g className="x-age-point" transform={`translate(${80 + (30 / 80) * 680},${350 - 50 * 3})`}>
-              <circle r="8" fill="#C9A38A" stroke="white" strokeWidth="3"/>
-              <text x="14" y="-12" fontSize="13" fontWeight="600" fill="#1A1A1A">{t.age.points[0].age}: {t.age.points[0].drop}</text>
+            <g className="x-age-point" transform={`translate(${60 + (30 / 80) * 700},${330 - 50 * 2.6})`}>
+              <circle r="6" fill="#C9A38A" stroke="white" strokeWidth="3"/>
+              <text x="14" y="-12" fontFamily="SF Pro Display, Inter, sans-serif" fontSize="13" fontWeight="600" letterSpacing="-0.01em" fill="#1d1d1f">
+                {t.age.points[0].age}: {t.age.points[0].drop}
+              </text>
             </g>
-            <g className="x-age-point" transform={`translate(${80 + (60 / 80) * 680},${350 - 15 * 3})`}>
-              <circle r="8" fill="#A8806A" stroke="white" strokeWidth="3"/>
-              <text x="14" y="-12" fontSize="13" fontWeight="600" fill="#1A1A1A">{t.age.points[1].age}: {t.age.points[1].drop}</text>
+            <g className="x-age-point" transform={`translate(${60 + (60 / 80) * 700},${330 - 15 * 2.6})`}>
+              <circle r="6" fill="#A8806A" stroke="white" strokeWidth="3"/>
+              <text x="14" y="-12" fontFamily="SF Pro Display, Inter, sans-serif" fontSize="13" fontWeight="600" letterSpacing="-0.01em" fill="#1d1d1f">
+                {t.age.points[1].age}: {t.age.points[1].drop}
+              </text>
             </g>
           </svg>
         </div>
         <div className="x-age-points">
           {t.age.points.map((p, i) => (
-            <div key={i} className="x-age-pt-card">
-              <div className="x-age-pt-card__age">{p.age}</div>
-              <div className="x-age-pt-card__drop">{p.drop}</div>
+            <div key={i} className="x-age-point-card">
+              <div className="x-age-point-card__age">{p.age}</div>
+              <div className="x-age-point-card__drop">{p.drop}</div>
               <p>{p.label}</p>
             </div>
           ))}
@@ -210,23 +206,22 @@ function AgeSection() {
 }
 
 /* ------------------------------------------------------------------
-   4. CompareSection — X39 vs iniekcje
+   4. CompareSection — DARK tile · two columns
    ------------------------------------------------------------------ */
 function CompareSection() {
   const { t } = useApp();
   const ref = useReveal();
   return (
-    <section ref={ref} className="x-section x-section--dark">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.compare.eyebrow}</span>
-          <h2 className="x-section__title x-section__title--light">{t.compare.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub x-section__sub--light">{t.compare.subtitle}</p>
+    <section ref={ref} className="x-tile x-tile--dark-2">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.compare.title}</Title>
+          <p className="x-lead">{t.compare.subtitle}</p>
         </div>
         <div className="x-compare">
           {t.compare.cols.map((c, i) => (
-            <div key={i} className={"x-compare__col" + (c.highlight ? " is-highlight" : "")}>
-              <span className="x-compare__tag">{c.tag}</span>
+            <div key={i} className={"x-compare__col" + (c.highlight ? " is-x39" : "")}>
+              <div className="x-compare__tag">{c.tag}</div>
               <h3 className="x-compare__title">{c.title}</h3>
               <ul className="x-compare__list">
                 {c.items.map((it, j) => <li key={j}>{it}</li>)}
@@ -240,21 +235,19 @@ function CompareSection() {
 }
 
 /* ------------------------------------------------------------------
-   5. AuthoritySection — Dr VerHulst YT embed + 3 bullets
+   5. AuthoritySection — LIGHT tile · Dr VerHulst YT
    ------------------------------------------------------------------ */
 function AuthoritySection() {
   const { t } = useApp();
   const ref = useReveal();
   const [loaded, setLoaded] = useStateS(false);
   const ytId = t.authority.ytId;
-
   return (
-    <section ref={ref} className="x-section" id="proof">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.authority.eyebrow}</span>
-          <h2 className="x-section__title">{t.authority.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub">{t.authority.subtitle}</p>
+    <section ref={ref} className="x-tile x-tile--light" id="proof">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.authority.title}</Title>
+          <p className="x-lead">{t.authority.subtitle}</p>
         </div>
         <div
           className="x-video"
@@ -287,7 +280,7 @@ function AuthoritySection() {
           )}
         </div>
         <p className="x-video__caption">{t.authority.ytCaption}</p>
-        <div className="x-grid-3 x-auth-bullets">
+        <div className="x-auth-bullets">
           {t.authority.bullets.map((b, i) => (
             <div key={i} className="x-auth-card">
               <h4>{b.t}</h4>
@@ -301,26 +294,22 @@ function AuthoritySection() {
 }
 
 /* ------------------------------------------------------------------
-   6. TimelineSection — 1-30d / 1-3mc / 6mc
+   6. TimelineSection — PARCHMENT tile · 3 time markers
    ------------------------------------------------------------------ */
 function TimelineSection() {
   const { t } = useApp();
   const ref = useReveal();
   return (
-    <section ref={ref} className="x-section x-section--soft">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.timeline.eyebrow}</span>
-          <h2 className="x-section__title">{t.timeline.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub">{t.timeline.subtitle}</p>
+    <section ref={ref} className="x-tile x-tile--parchment">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.timeline.title}</Title>
+          <p className="x-lead">{t.timeline.subtitle}</p>
         </div>
         <div className="x-timeline">
           {t.timeline.items.map((it, i) => (
             <div key={i} className="x-timeline__item">
-              <div className="x-timeline__dot">
-                <span>{it.time.split(" ")[0]}</span>
-                <small>{it.time.split(" ").slice(1).join(" ")}</small>
-              </div>
+              <div className="x-timeline__time">{it.time}</div>
               <h4>{it.title}</h4>
               <p>{it.desc}</p>
             </div>
@@ -332,23 +321,22 @@ function TimelineSection() {
 }
 
 /* ------------------------------------------------------------------
-   7. HowSection — 4 steps (Apply / Wear / Remove / Repeat)
+   7. HowSection — LIGHT · 4 steps how to use
    ------------------------------------------------------------------ */
 function HowSection() {
   const { t } = useApp();
   const ref = useReveal();
   return (
-    <section ref={ref} className="x-section" id="product">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.how.eyebrow}</span>
-          <h2 className="x-section__title">{t.how.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub">{t.how.subtitle}</p>
+    <section ref={ref} className="x-tile x-tile--light" id="product">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.how.title}</Title>
+          <p className="x-lead">{t.how.subtitle}</p>
         </div>
-        <div className="x-how">
+        <div className="x-steps-4">
           {t.how.steps.map((s, i) => (
-            <article key={i} className="x-how__step">
-              <div className="x-how__num">{s.n}</div>
+            <article key={i} className="x-step">
+              <div className="x-step__num">{s.n}</div>
               <h3>{s.t}</h3>
               <p>{s.d}</p>
             </article>
@@ -360,19 +348,18 @@ function HowSection() {
 }
 
 /* ------------------------------------------------------------------
-   8. ScienceSection — 3 cards (Patents/Studies/Side effects)
+   8. ScienceSection — DARK-3 · 3 number cards
    ------------------------------------------------------------------ */
 function ScienceSection() {
   const { t } = useApp();
   const ref = useReveal();
   return (
-    <section ref={ref} className="x-section x-section--soft">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.science.eyebrow}</span>
-          <h2 className="x-section__title">{t.science.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
+    <section ref={ref} className="x-tile x-tile--dark-3">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.science.title}</Title>
         </div>
-        <div className="x-grid-3 x-science">
+        <div className="x-science">
           {t.science.cards.map((c, i) => (
             <div key={i} className="x-science__card">
               <div className="x-science__num">{c.n}</div>
@@ -387,34 +374,33 @@ function ScienceSection() {
 }
 
 /* ------------------------------------------------------------------
-   9. GuaranteeSection — 90-day shield + main CTA "Kup w LifeWave"
+   9. GuaranteeSection — PARCHMENT · big CTA buy LifeWave
    ------------------------------------------------------------------ */
 function GuaranteeSection() {
   const { t } = useApp();
   const ref = useReveal();
   const buyLink = (window.X39_CONFIG && window.X39_CONFIG.links.buy) || "#contact";
   return (
-    <section ref={ref} className="x-section x-cta-section" id="buy">
-      <div className="x-container x-reveal x-cta-section__inner">
+    <section ref={ref} className="x-tile x-tile--parchment" id="buy">
+      <div className="x-tile__inner x-reveal">
         <div className="x-guarantee">
           <div className="x-guarantee__shield" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-              <path d="M9.5 12.5l2 2 4-4" stroke="white" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9.5 12.5l2 2 4-4" stroke="white" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <span className="x-eyebrow">{t.guarantee.eyebrow}</span>
-          <h2 className="x-section__title">{t.guarantee.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub">{t.guarantee.subtitle}</p>
-          <div className="x-cta-actions">
+          <Title tag="h2" className="x-display-lg">{t.guarantee.title}</Title>
+          <p className="x-lead">{t.guarantee.subtitle}</p>
+          <div className="x-tile__ctas">
             <a
               href={buyLink}
               target={buyLink.startsWith("http") ? "_blank" : "_self"}
               rel={buyLink.startsWith("http") ? "noopener" : undefined}
-              className="x-btn x-btn--primary x-btn--lg"
+              className="x-btn x-btn--primary"
             >{t.guarantee.cta}</a>
           </div>
-          <p className="x-cta-sub">{t.guarantee.sub}</p>
+          <p className="x-guarantee__sub">{t.guarantee.sub}</p>
         </div>
       </div>
     </section>
@@ -422,21 +408,20 @@ function GuaranteeSection() {
 }
 
 /* ------------------------------------------------------------------
-   10. TeamSection — 4 reasons + top leaders grid + TidyCal CTA
+   10. TeamSection — DARK · 4 reasons + leaders grid + TidyCal CTA
    ------------------------------------------------------------------ */
 function TeamSection() {
   const { t } = useApp();
   const ref = useReveal();
   const tidycal = (window.X39_CONFIG && window.X39_CONFIG.links.tidycal) || "#contact";
   return (
-    <section ref={ref} className="x-section x-section--dark" id="team">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.team.eyebrow}</span>
-          <h2 className="x-section__title x-section__title--light">{t.team.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
-          <p className="x-section__sub x-section__sub--light">{t.team.subtitle}</p>
+    <section ref={ref} className="x-tile x-tile--dark" id="team">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.team.title}</Title>
+          <p className="x-lead">{t.team.subtitle}</p>
         </div>
-        <div className="x-grid-2 x-team-reasons">
+        <div className="x-team-reasons">
           {t.team.reasons.map((r, i) => (
             <div key={i} className="x-team-card">
               <div className="x-team-card__num">{String(i + 1).padStart(2, "0")}</div>
@@ -446,9 +431,9 @@ function TeamSection() {
           ))}
         </div>
         <div className="x-team-leaders">
-          <h3 className="x-team-leaders__title">{t.team.leaders.title}</h3>
-          <p className="x-team-leaders__sub">{t.team.leaders.sub}</p>
-          <div className="x-leaders-grid">
+          <div className="x-team-leaders__title">{t.team.leaders.title}</div>
+          <div className="x-team-leaders__sub">{t.team.leaders.sub}</div>
+          <div className="x-leaders">
             {t.team.leaders.items.map((l, i) => (
               <div key={i} className={"x-leader" + (i === t.team.leaders.items.length - 1 ? " is-you" : "")}>
                 <span className="x-leader__rank">{l.rank}</span>
@@ -458,12 +443,12 @@ function TeamSection() {
             ))}
           </div>
         </div>
-        <div className="x-cta-actions x-cta-actions--center">
+        <div className="x-tile__ctas">
           <a
             href={tidycal}
             target={tidycal.startsWith("http") ? "_blank" : "_self"}
             rel={tidycal.startsWith("http") ? "noopener" : undefined}
-            className="x-btn x-btn--primary x-btn--lg"
+            className="x-btn x-btn--primary"
           >{t.team.cta}</a>
         </div>
       </div>
@@ -472,17 +457,16 @@ function TeamSection() {
 }
 
 /* ------------------------------------------------------------------
-   11. FaqSection — 8 details accordions
+   11. FaqSection — LIGHT · 8 accordion
    ------------------------------------------------------------------ */
 function FaqSection() {
   const { t } = useApp();
   const ref = useReveal();
   return (
-    <section ref={ref} className="x-section" id="faq">
-      <div className="x-container x-reveal">
-        <div className="x-section__head x-section__head--center">
-          <span className="x-eyebrow">{t.faq.eyebrow}</span>
-          <h2 className="x-section__title">{t.faq.title.split("\n").map((l,i) => <span key={i}>{l}<br/></span>)}</h2>
+    <section ref={ref} className="x-tile x-tile--light" id="faq">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.faq.title}</Title>
         </div>
         <div className="x-faq">
           {t.faq.items.map((it, i) => (
@@ -498,21 +482,22 @@ function FaqSection() {
 }
 
 /* ------------------------------------------------------------------
-   12. ContactSection — final CTA + 2 buttons (TidyCal + form)
+   12. ContactSection — PARCHMENT · final CTA
    ------------------------------------------------------------------ */
 function ContactSection() {
   const { t } = useApp();
   const ref = useReveal();
   const tidycal = (window.X39_CONFIG && window.X39_CONFIG.links.tidycal) || "mailto:muszynski.online@gmail.com";
   return (
-    <section ref={ref} className="x-section x-cta-section" id="contact">
-      <div className="x-container x-reveal x-cta-section__inner">
-        <span className="x-eyebrow">{t.contact.eyebrow}</span>
-        <h2 className="x-section__title">{t.contact.title}</h2>
-        <p className="x-section__sub">{t.contact.subtitle}</p>
-        <div className="x-cta-actions x-cta-actions--center">
-          <a href={tidycal} target={tidycal.startsWith("http") ? "_blank" : "_self"} className="x-btn x-btn--primary x-btn--lg">{t.contact.cta1}</a>
-          <a href="mailto:muszynski.online@gmail.com" className="x-btn x-btn--ghost x-btn--lg">{t.contact.cta2}</a>
+    <section ref={ref} className="x-tile x-tile--parchment" id="contact">
+      <div className="x-tile__inner x-reveal">
+        <div className="x-tile__head">
+          <Title tag="h2" className="x-display-lg">{t.contact.title}</Title>
+          <p className="x-lead">{t.contact.subtitle}</p>
+        </div>
+        <div className="x-tile__ctas">
+          <a href={tidycal} target={tidycal.startsWith("http") ? "_blank" : "_self"} rel={tidycal.startsWith("http") ? "noopener" : undefined} className="x-btn x-btn--primary">{t.contact.cta1}</a>
+          <a href="mailto:muszynski.online@gmail.com" className="x-btn x-btn--ghost">{t.contact.cta2}</a>
         </div>
       </div>
     </section>
@@ -520,18 +505,16 @@ function ContactSection() {
 }
 
 /* ------------------------------------------------------------------
-   13. Footer
+   13. Footer — parchment, dense link columns
    ------------------------------------------------------------------ */
 function Footer() {
   const { t } = useApp();
   return (
     <footer className="x-footer">
-      <div className="x-container">
+      <div className="x-footer__inner">
+        <div className="x-footer__brand-row">{t.footer.brand}</div>
+        <p className="x-footer__tagline">{t.footer.tagline}</p>
         <div className="x-footer__grid">
-          <div className="x-footer__brand-col">
-            <div className="x-footer__brand">{t.footer.brand}</div>
-            <p className="x-footer__tagline">{t.footer.tagline}</p>
-          </div>
           {t.footer.cols.map((col, i) => (
             <div key={i} className="x-footer__col">
               <h4>{col.title}</h4>
@@ -544,8 +527,8 @@ function Footer() {
           ))}
         </div>
         <div className="x-footer__disclaimer">
-          <p><strong>·</strong> {t.footer.disclaimerMed}</p>
-          <p><strong>·</strong> {t.footer.disclaimerMlm}</p>
+          <p>{t.footer.disclaimerMed}</p>
+          <p>{t.footer.disclaimerMlm}</p>
         </div>
         <div className="x-footer__bottom">
           <div>{t.footer.legal}</div>

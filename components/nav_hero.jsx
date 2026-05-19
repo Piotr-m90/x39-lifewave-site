@@ -1,46 +1,33 @@
 /* global React, COPY, AppCtx, useApp, useReveal */
-const { useState: useStateNH, useEffect: useEffectNH, useRef: useRefNH, useMemo: useMemoNH } = React;
+const { useState: useStateNH, useEffect: useEffectNH, useRef: useRefNH } = React;
 
 /* ------------------------------------------------------------------
-   LangPicker — 3 jezyki, accessible, persists locale w localStorage
+   LangPicker — PL/EN/DE in global nav right cluster
    ------------------------------------------------------------------ */
 function LangPicker() {
   const { locale, setLocale } = useApp();
-  const langs = [
-    { code: "pl", label: "PL" },
-    { code: "en", label: "EN" },
-    { code: "de", label: "DE" },
-  ];
+  const langs = ["pl", "en", "de"];
   return (
     <div className="x-lang" role="tablist" aria-label="Language">
-      {langs.map(l => (
+      {langs.map(code => (
         <button
-          key={l.code}
+          key={code}
           role="tab"
-          aria-selected={locale === l.code}
-          className={"x-lang__btn" + (locale === l.code ? " is-active" : "")}
-          onClick={() => { setLocale(l.code); try { localStorage.setItem("x39_lang", l.code); } catch(e){} }}
-        >{l.label}</button>
+          aria-selected={locale === code}
+          className={"x-lang__btn" + (locale === code ? " is-active" : "")}
+          onClick={() => { setLocale(code); try { localStorage.setItem("x39_lang", code); } catch(e){} }}
+        >{code.toUpperCase()}</button>
       ))}
     </div>
   );
 }
 
 /* ------------------------------------------------------------------
-   Nav — sticky, light/dark adaptive po scroll
+   Global Nav — 44px true-black, sticky, Apple chassis
    ------------------------------------------------------------------ */
-function Nav() {
+function GlobalNav() {
   const { t } = useApp();
-  const [scrolled, setScrolled] = useStateNH(false);
   const [open, setOpen] = useStateNH(false);
-
-  useEffectNH(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const items = [
     { href: "#science", k: "science" },
     { href: "#product", k: "product" },
@@ -48,30 +35,26 @@ function Nav() {
     { href: "#team", k: "team" },
     { href: "#faq", k: "faq" },
   ];
-
   return (
-    <nav className={"x-nav" + (scrolled ? " is-scrolled" : "") + (open ? " is-open" : "")} role="navigation">
-      <div className="x-nav__inner">
-        <a href="#top" className="x-nav__logo" aria-label="X39 — start">
-          <span className="x-nav__dot" aria-hidden="true"></span>
-          <span className="x-nav__brand">X39 <span className="x-nav__sub">· regeneracja</span></span>
+    <nav className={"x-nav-global" + (open ? " is-open" : "")} aria-label="Main">
+      <div className="x-nav-global__inner">
+        <a href="#top" className="x-nav-global__logo" aria-label="X39 home" onClick={() => setOpen(false)}>
+          <span className="x-nav-global__dot" aria-hidden="true"></span>
+          X39
         </a>
-        <ul className="x-nav__links">
-          {items.map(it => (
-            <li key={it.k}><a href={it.href} onClick={() => setOpen(false)}>{t.nav[it.k]}</a></li>
-          ))}
+        <ul className="x-nav-global__links">
+          {items.map(it => <li key={it.k}><a href={it.href} onClick={() => setOpen(false)}>{t.nav[it.k]}</a></li>)}
         </ul>
-        <div className="x-nav__cta">
+        <div className="x-nav-global__right">
           <LangPicker/>
-          <a href="#buy" className="x-btn x-btn--primary x-btn--sm">{t.nav.buy}</a>
           <button
-            className="x-nav__toggle"
+            className="x-nav-global__toggle"
             aria-label="Menu"
             aria-expanded={open}
             onClick={() => setOpen(o => !o)}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d={open ? "M6 6l12 12M6 18L18 6" : "M4 7h16M4 12h16M4 17h16"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              <path d={open ? "M6 6l12 12M6 18L18 6" : "M4 7h16M4 12h16M4 17h16"} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
             </svg>
           </button>
         </div>
@@ -81,152 +64,116 @@ function Nav() {
 }
 
 /* ------------------------------------------------------------------
-   Hero — 3-scene scrollowany prezentacja
-   Sceny: A = Światło, B = Plaster jak antena, C = Regeneracja
-   Mechanika: progress 0→1 wraz ze scrollem przez hero,
-              dla każdej sceny crossfade in/out + parallax patch
+   Sub-Nav — 52px frosted parchment, sticky under global nav
+   Left: brand context · Right: inline links + persistent primary CTA
+   ------------------------------------------------------------------ */
+function SubNav() {
+  const { t } = useApp();
+  const buyLink = (window.X39_CONFIG && window.X39_CONFIG.links.buy) || "#buy";
+  return (
+    <div className="x-nav-sub" role="navigation" aria-label="Section">
+      <div className="x-nav-sub__inner">
+        <a href="#top" className="x-nav-sub__brand">X39 LifeWave</a>
+        <div className="x-nav-sub__links">
+          <a href="#science">{t.nav.science}</a>
+          <a href="#proof">{t.nav.proof}</a>
+          <a href="#faq">{t.nav.faq}</a>
+          <a href={buyLink.startsWith("http") ? buyLink : "#buy"}
+             target={buyLink.startsWith("http") ? "_blank" : "_self"}
+             rel={buyLink.startsWith("http") ? "noopener" : undefined}
+             className="x-btn x-btn--utility">{t.nav.buy}</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------
+   Hero — Apple-style: single full-bleed tile on parchment
+   headline → tagline → 2 pill CTAs → trust strip → product render
    ------------------------------------------------------------------ */
 function Hero() {
-  const { t, locale } = useApp();
-  const wrapRef = useRefNH(null);
-  const [progress, setProgress] = useStateNH(0); // 0..1 przez całą wysokość hero
-  const reducedMotion = useMemoNH(() => {
-    try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e) { return false; }
-  }, []);
-
-  useEffectNH(() => {
-    if (reducedMotion) { setProgress(0.5); return; }
-    const onScroll = () => {
-      const el = wrapRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // hero ma 240vh (3 scene × ~80vh). Wyliczamy progress 0..1
-      const total = el.offsetHeight - vh;
-      const scrolled = -rect.top;
-      const p = Math.max(0, Math.min(1, scrolled / total));
-      setProgress(p);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [reducedMotion]);
-
-  // 3 sceny — opacity przejścia
-  // scena 0: 0.00-0.40 (peak 0.15)
-  // scena 1: 0.30-0.70 (peak 0.50)
-  // scena 2: 0.60-1.00 (peak 0.85)
-  const opacityFor = (peak, width = 0.30) => {
-    const d = Math.abs(progress - peak);
-    return Math.max(0, 1 - d / width);
-  };
-  const scenes = [
-    { peak: 0.15, key: "sceneA" },
-    { peak: 0.50, key: "sceneB" },
-    { peak: 0.85, key: "sceneC" },
-  ];
-
+  const { t } = useApp();
+  const buyLink = (window.X39_CONFIG && window.X39_CONFIG.links.buy) || "#buy";
   return (
-    <section ref={wrapRef} className="x-hero" id="top">
-      <div className="x-hero__sticky">
-        {/* Background — holograficzny shimmer reagujący na progress */}
-        <div className="x-hero__bg" aria-hidden="true">
-          <div className="x-hero__shimmer" style={{
-            transform: `translate(${-20 + progress * 40}%, ${-10 + progress * 20}%) rotate(${progress * 30}deg)`,
-            opacity: 0.6 + progress * 0.4,
-          }}/>
-          <div className="x-hero__rays" style={{ opacity: 0.4 + progress * 0.6 }}/>
+    <section className="x-hero" id="top">
+      <div className="x-hero__inner">
+        <h1 className="x-hero-display">
+          {t.hero.sceneC.k.replace(/\.$/, "")}<span style={{color: "var(--x-accent-ink)"}}>.</span>{" "}
+          <span style={{fontWeight: 400, letterSpacing: "0.196px"}}>{t.hero.sceneC.v}</span>
+        </h1>
+        <p className="x-lead x-hero__tagline">{t.hero.sceneA.v} {t.hero.sceneB.v}</p>
+        <div className="x-hero__ctas">
+          <a href={buyLink.startsWith("http") ? buyLink : "#buy"}
+             target={buyLink.startsWith("http") ? "_blank" : "_self"}
+             rel={buyLink.startsWith("http") ? "noopener" : undefined}
+             className="x-btn x-btn--primary">{t.hero.cta}</a>
+          <a href="#team" className="x-btn x-btn--ghost">{t.hero.ghost}</a>
         </div>
-
-        {/* Patch wizualnie — floating */}
-        <div className="x-hero__patch-wrap" aria-hidden="true">
-          <div className="x-hero__patch" style={{
-            transform: `translateY(${-progress * 40}px) scale(${0.92 + progress * 0.12}) rotate(${(progress - 0.5) * 12}deg)`,
-          }}>
-            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="patchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F4D9C2"/>
-                  <stop offset="50%" stopColor="#E8C5A8"/>
-                  <stop offset="100%" stopColor="#A8806A"/>
-                </linearGradient>
-                <radialGradient id="patchCore" cx="50%" cy="50%" r="40%">
-                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1"/>
-                  <stop offset="60%" stopColor="#FFE8D5" stopOpacity="0.6"/>
-                  <stop offset="100%" stopColor="#C9A38A" stopOpacity="0"/>
-                </radialGradient>
-              </defs>
-              <rect x="20" y="40" width="360" height="120" rx="60" fill="url(#patchGrad)" stroke="#A8806A" strokeWidth="2"/>
-              <rect x="30" y="50" width="340" height="100" rx="50" fill="#F8EDE0" stroke="rgba(255,255,255,0.6)"/>
-              <ellipse cx="200" cy="100" rx="80" ry="40" fill="url(#patchCore)"/>
-              {/* hex crystals */}
-              {[0,1,2,3,4].map(i => (
-                <polygon
-                  key={i}
-                  points="0,-8 7,-4 7,4 0,8 -7,4 -7,-4"
-                  fill="rgba(255,255,255,0.7)"
-                  stroke="#A8806A"
-                  strokeWidth="0.8"
-                  transform={`translate(${150 + i * 25}, 100)`}
-                />
-              ))}
-            </svg>
-            {/* Light beam from above */}
-            <div className="x-hero__beam" style={{ opacity: opacityFor(0.15, 0.35) * 0.8 }}/>
-          </div>
-        </div>
-
-        {/* 3 sceny tekstu — crossfade */}
-        <div className="x-hero__copy-stack">
-          {scenes.map((s, idx) => {
-            const op = opacityFor(s.peak);
-            const ty = (progress - s.peak) * 60;
-            return (
-              <div
-                key={idx}
-                className={"x-hero__copy" + (op > 0.6 ? " is-active" : "")}
-                style={{
-                  opacity: op,
-                  transform: `translateY(${ty}px)`,
-                  pointerEvents: op > 0.5 ? "auto" : "none",
-                }}
-              >
-                <div className="x-hero__eyebrow">{t.hero.eyebrow}</div>
-                <h1 className="x-hero__title">
-                  <span className="x-hero__k">{t.hero[s.key].k}</span>
-                  <span className="x-hero__v">{t.hero[s.key].v}</span>
-                </h1>
-                {idx === 2 && (
-                  <>
-                    <div className="x-hero__actions">
-                      <a href="#buy" className="x-btn x-btn--primary x-btn--lg">{t.hero.cta}</a>
-                      <a href="#team" className="x-btn x-btn--ghost x-btn--lg">{t.hero.ghost}</a>
-                    </div>
-                    <ul className="x-hero__trust">
-                      {t.hero.trust.map((tt, i) => <li key={i}>{tt}</li>)}
-                    </ul>
-                  </>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Scroll indicator (znika na końcu) */}
-        <div className="x-hero__scroll" style={{ opacity: 1 - progress * 1.5 }}>
-          <span>{t.hero.scroll}</span>
-          <span className="x-hero__scroll-line" aria-hidden="true"></span>
-        </div>
-
-        {/* Progress dots — 3 sceny */}
-        <div className="x-hero__dots" aria-hidden="true">
-          {scenes.map((s, i) => (
-            <span key={i} className={"x-hero__dot" + (opacityFor(s.peak) > 0.6 ? " is-active" : "")}/>
-          ))}
+        <ul className="x-hero__trust">
+          {t.hero.trust.map((tt, i) => <li key={i}>{tt}</li>)}
+        </ul>
+        <div className="x-hero__visual">
+          <HeroPatchSVG/>
         </div>
       </div>
     </section>
   );
 }
 
-Object.assign(window, { LangPicker, Nav, Hero });
+/* ------------------------------------------------------------------
+   Hero patch SVG — clean Apple-product-render aesthetic
+   ------------------------------------------------------------------ */
+function HeroPatchSVG() {
+  return (
+    <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="X39 patch">
+      <defs>
+        <linearGradient id="patchSurface" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#F4D9C2"/>
+          <stop offset="35%" stopColor="#E8C5A8"/>
+          <stop offset="70%" stopColor="#C9A38A"/>
+          <stop offset="100%" stopColor="#A8806A"/>
+        </linearGradient>
+        <radialGradient id="patchCore" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95"/>
+          <stop offset="50%" stopColor="#FFE8D5" stopOpacity="0.5"/>
+          <stop offset="100%" stopColor="#C9A38A" stopOpacity="0"/>
+        </radialGradient>
+        <linearGradient id="patchRim" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.6)"/>
+          <stop offset="100%" stopColor="rgba(168,128,106,0.3)"/>
+        </linearGradient>
+      </defs>
+      {/* Outer rim */}
+      <rect x="40" y="80" width="680" height="220" rx="110" fill="url(#patchSurface)"/>
+      <rect x="40" y="80" width="680" height="220" rx="110" fill="none" stroke="url(#patchRim)" strokeWidth="1.5"/>
+      {/* Inner pad */}
+      <rect x="60" y="100" width="640" height="180" rx="90" fill="#F8EDE0" opacity="0.92"/>
+      {/* Core glow */}
+      <ellipse cx="380" cy="190" rx="160" ry="80" fill="url(#patchCore)"/>
+      {/* Crystal hex grid */}
+      {[-3,-2,-1,0,1,2,3].map(i => (
+        <g key={i} transform={`translate(${380 + i * 38},190)`}>
+          <polygon
+            points="0,-12 10,-6 10,6 0,12 -10,6 -10,-6"
+            fill="rgba(255,255,255,0.65)"
+            stroke="rgba(168,128,106,0.4)"
+            strokeWidth="0.8"
+          />
+          <polygon
+            points="0,-6 5,-3 5,3 0,6 -5,3 -5,-3"
+            fill="rgba(232,197,168,0.4)"
+          />
+        </g>
+      ))}
+      {/* Brand mark X39 */}
+      <text x="380" y="350" textAnchor="middle"
+            fontFamily="SF Pro Display, Inter, sans-serif"
+            fontSize="13" fontWeight="600"
+            letterSpacing="2.5"
+            fill="rgba(168,128,106,0.55)">X39</text>
+    </svg>
+  );
+}
+
+Object.assign(window, { LangPicker, GlobalNav, SubNav, Hero });
