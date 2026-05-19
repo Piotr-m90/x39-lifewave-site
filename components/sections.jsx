@@ -468,7 +468,7 @@ function TeamSection() {
           </div>
         </div>
 
-        {/* GROUP 2: My extra — what only my team offers */}
+        {/* GROUP 2: What everyone in my team gets — real, deliverable */}
         <div className="x-team-group x-team-group--extra">
           <div className="x-team-group__head">
             <h3 className="x-team-group__title">{t.team.extraTitle}</h3>
@@ -480,6 +480,31 @@ function TeamSection() {
                 <div className="x-team-card__num">{String(i + 1).padStart(2, "0")}</div>
                 <h3>{r.t}</h3>
                 <p>{r.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* GROUP 3: Optional perks — only for active partners after first results */}
+        <div className="x-team-group x-team-group--optional">
+          <div className="x-team-group__head">
+            <span className="x-team-group__badge">{t.team.extraOptionalBadge}</span>
+            <h3 className="x-team-group__title">{t.team.extraOptionalTitle}</h3>
+            <p className="x-team-group__sub">{t.team.extraOptionalSub}</p>
+          </div>
+          <div className="x-team-optional">
+            {t.team.extraOptional.map((r, i) => (
+              <div key={i} className="x-team-optional__row">
+                <div className="x-team-optional__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <path d="M12 2L4 7v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-5z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4>{r.t}</h4>
+                  <p>{r.d}</p>
+                </div>
               </div>
             ))}
           </div>

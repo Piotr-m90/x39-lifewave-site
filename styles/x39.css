@@ -1194,6 +1194,83 @@ ul { list-style: none; padding: 0; margin: 0; }
   margin: 0 auto 56px;
 }
 .x-team-group--extra { margin-top: 80px; }
+.x-team-group--optional { margin-top: 64px; margin-bottom: 80px; }
+
+.x-team-group__badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--x-accent-on-dark);
+  background: rgba(232, 197, 168, 0.12);
+  padding: 5px 12px;
+  border-radius: var(--x-r-pill);
+  margin-bottom: 12px;
+  border: 1px solid rgba(232, 197, 168, 0.32);
+}
+
+/* Optional perks — compact list view (less prominent than main 4 reasons) */
+.x-team-optional {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.x-team-optional__row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 18px;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(232, 197, 168, 0.24);
+  border-radius: var(--x-r-md);
+  align-items: start;
+  transition: border-color 280ms, background 280ms;
+}
+.x-team-optional__row:hover {
+  border-color: rgba(232, 197, 168, 0.48);
+  background: rgba(232, 197, 168, 0.04);
+}
+.x-team-optional__icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(232, 197, 168, 0.08);
+  border-radius: var(--x-r-md);
+  color: var(--x-accent-on-dark);
+}
+.x-team-optional__icon svg { width: 20px; height: 20px; }
+.x-team-optional__row h4 {
+  font-family: var(--x-font-display);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--x-body-on-dark);
+  margin: 4px 0 6px;
+}
+.x-team-optional__row p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--x-body-muted);
+  margin: 0;
+}
+
+/* Stagger replay for optional rows */
+.x-reveal .x-team-optional__row,
+.x-reveal.is-pending .x-team-optional__row {
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 700ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 280ms, background 280ms;
+}
+.x-reveal.is-pending .x-team-optional__row { opacity: 0; transform: translateX(-12px); }
+.x-reveal .x-team-optional__row { opacity: 1; transform: translateX(0); }
+.x-reveal .x-team-optional__row:nth-child(1) { transition-delay: 100ms; }
+.x-reveal .x-team-optional__row:nth-child(2) { transition-delay: 220ms; }
+.x-reveal .x-team-optional__row:nth-child(3) { transition-delay: 340ms; }
+@media (prefers-reduced-motion: reduce) {
+  .x-reveal .x-team-optional__row,
+  .x-reveal.is-pending .x-team-optional__row { opacity: 1; transform: none; transition: none; }
+}
 .x-team-group__head {
   text-align: center;
   margin-bottom: 36px;
