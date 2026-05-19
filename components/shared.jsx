@@ -32,7 +32,7 @@ const COPY = {
     peptide: {
       eyebrow: "Cel sygnału",
       title: "Peptyd miedzi\nGHK-Cu.",
-      subtitle: "Działa jak „główny modulator" Twojego organizmu. Badania pokazują, że jest w stanie zresetować ponad 4200 genów do młodszego, zdrowszego stanu — jak przywrócenie systemu operacyjnego komputera do ustawień fabrycznych.",
+      subtitle: "Działa jak „główny modulator” Twojego organizmu. Badania pokazują, że jest w stanie zresetować ponad 4200 genów do młodszego, zdrowszego stanu — jak przywrócenie systemu operacyjnego komputera do ustawień fabrycznych.",
       reset: "4200",
       resetLabel: "genów zresetowanych do młodszego stanu",
       benefits: [
@@ -47,7 +47,7 @@ const COPY = {
     age: {
       eyebrow: "Dlaczego się starzejemy",
       title: "Z wiekiem sygnał\nsłabnie.",
-      subtitle: "Komórki macierzyste to nasza naturalna „ekipa remontowa". Mogą zamienić się w dowolną tkankę: serce, wątrobę, kości, skórę. Problem: z wiekiem ich aktywność dramatycznie spada.",
+      subtitle: "Komórki macierzyste to nasza naturalna „ekipa remontowa”. Mogą zamienić się w dowolną tkankę: serce, wątrobę, kości, skórę. Problem: z wiekiem ich aktywność dramatycznie spada.",
       points: [
         { age: "30", drop: "50%", label: "Produkcja spada o połowę. Pojawiają się pierwsze zmarszczki." },
         { age: "60", drop: "80-90%", label: "Pozostaje tylko 10-20% aktywnych komórek. Organizm nie nadąża z wymianą." },
@@ -384,7 +384,7 @@ const COPY = {
     peptide: {
       eyebrow: "Signalziel",
       title: "Kupferpeptid\nGHK-Cu.",
-      subtitle: "Wirkt als „Hauptmodulator" deines Organismus. Studien zeigen, dass es über 4.200 Gene in einen jüngeren, gesünderen Zustand zurücksetzen kann — wie ein Computer-Reset auf Werkseinstellungen.",
+      subtitle: "Wirkt als „Hauptmodulator” deines Organismus. Studien zeigen, dass es über 4.200 Gene in einen jüngeren, gesünderen Zustand zurücksetzen kann — wie ein Computer-Reset auf Werkseinstellungen.",
       reset: "4.200",
       resetLabel: "Gene auf einen jüngeren Zustand zurückgesetzt",
       benefits: [
@@ -399,7 +399,7 @@ const COPY = {
     age: {
       eyebrow: "Warum wir altern",
       title: "Mit dem Alter\nwird das Signal schwächer.",
-      subtitle: "Stammzellen sind unsere natürliche „Reparaturmannschaft" — sie können zu jedem Gewebe werden: Herz, Leber, Knochen, Haut. Das Problem: ihre Aktivität sinkt dramatisch mit dem Alter.",
+      subtitle: "Stammzellen sind unsere natürliche „Reparaturmannschaft” — sie können zu jedem Gewebe werden: Herz, Leber, Knochen, Haut. Das Problem: ihre Aktivität sinkt dramatisch mit dem Alter.",
       points: [
         { age: "30", drop: "50%", label: "Produktion halbiert sich. Erste Falten erscheinen." },
         { age: "60", drop: "80-90%", label: "Nur 10-20% aktiver Zellen bleiben. Der Körper kommt mit der Zellerneuerung nicht mehr nach." },
