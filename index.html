@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>X39 LifeWave — Aktywuj swoje komórki macierzyste bez iniekcji</title>
-<meta name="description" content="Plaster X39 to fototerapia, która aktywuje Twoje własne komórki macierzyste przez peptyd miedzi GHK-Cu. Bez iniekcji, bez chemii. 100+ patentów, 80+ badań klinicznych, 90 dni gwarancji.">
+<meta name="description" content="Plaster X39 to fototerapia, która aktywuje Twoje własne komórki macierzyste przez peptyd miedzi GHK-Cu. Bez iniekcji, bez chemii. 100+ patentów, 80+ badań, 90 dni gwarancji.">
 <meta name="theme-color" content="#C9A38A">
 
 <meta property="og:title" content="X39 LifeWave — Aktywuj swoje komórki macierzyste bez iniekcji">
@@ -17,8 +17,44 @@
 <meta property="twitter:card" content="summary_large_image">
 
 <link rel="canonical" href="https://x39.muszynski.online/">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23E8C5A8'/%3E%3Cstop offset='100%25' stop-color='%23A8806A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css">
+<link rel="alternate" hreflang="pl" href="https://x39.muszynski.online/">
+<link rel="alternate" hreflang="en" href="https://x39.muszynski.online/?lang=en">
+<link rel="alternate" hreflang="de" href="https://x39.muszynski.online/?lang=de">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23F4D9C2'/%3E%3Cstop offset='50%25' stop-color='%23E8C5A8'/%3E%3Cstop offset='100%25' stop-color='%23A8806A'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles/szablon.css">
+<link rel="stylesheet" href="styles/x39.css?v=1">
+
+<script src="config.js"></script>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+
+<style>
+  html, body { margin: 0; padding: 0; background: #ffffff; }
+  #x-loading {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: #ffffff;
+    z-index: 9999;
+    transition: opacity 400ms ease, visibility 400ms;
+  }
+  #x-loading.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .x-loading-spin {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #E8C5A8, #C9A38A, #A8806A, #E8C5A8);
+    -webkit-mask: radial-gradient(circle at center, transparent 22px, black 23px);
+            mask: radial-gradient(circle at center, transparent 22px, black 23px);
+    animation: x-spin-load 1.2s linear infinite;
+  }
+  @keyframes x-spin-load { to { transform: rotate(360deg); } }
+</style>
 
 <script type="application/ld+json">
 {
@@ -27,13 +63,13 @@
     {
       "@type": "Product",
       "name": "Plaster X39 LifeWave",
-      "description": "Plaster fototerapii aktywujący własne komórki macierzyste przez peptyd miedzi GHK-Cu. Niezależny dystrybutor LifeWave Corporation.",
+      "description": "Plaster fototerapii aktywujący własne komórki macierzyste przez peptyd miedzi GHK-Cu.",
       "brand": { "@type": "Brand", "name": "LifeWave" },
       "category": "Wellness / Fototerapia",
       "image": "https://res.cloudinary.com/dyw1pi3nt/image/upload/v1/lifewave-x39/hero-patch.png",
       "offers": {
         "@type": "Offer",
-        "url": "https://x39.muszynski.online/produkt.html",
+        "url": "https://x39.muszynski.online/#buy",
         "priceCurrency": "PLN",
         "availability": "https://schema.org/InStock",
         "seller": { "@type": "Person", "name": "Piotr Muszyński" }
@@ -43,29 +79,17 @@
       "@type": "Organization",
       "name": "X39 dystrybucja — Piotr Muszyński",
       "url": "https://x39.muszynski.online",
-      "logo": "https://res.cloudinary.com/dyw1pi3nt/image/upload/v1/lifewave-x39/hero-patch.png",
       "founder": { "@type": "Person", "name": "Piotr Muszyński" },
       "sameAs": ["https://muszynski.online"]
     },
     {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Czy plaster X39 to lek?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Nie. X39 nie jest wyrobem medycznym ani lekiem. To plaster fototerapeutyczny — wykorzystuje ciepło Twojego ciała do emisji specyficznej długości fali świetlnej. Nic nie przenika do organizmu." }
-        },
-        {
-          "@type": "Question",
-          "name": "Jak działa plaster X39?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Plaster zawiera opatentowane organiczne kryształy. Twoje ciało emituje ciepło (podczerwień), kryształy odbijają to światło w precyzyjnej długości fali, która podnosi w organizmie poziom peptydu miedzi GHK-Cu — naturalnego sygnału aktywującego komórki macierzyste." }
-        },
-        {
-          "@type": "Question",
-          "name": "Czy jest bezpieczny?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Tak. Plaster nie zawiera substancji wchłanialnych — to terapia światłem. Nie wchodzi w interakcje z lekami, suplementami, ziołami. Posiada 100+ patentów i 80+ badań klinicznych." }
-        }
-      ]
+      "@type": "VideoObject",
+      "name": "Dr Don VerHulst i bioelektrody — opinia lekarza",
+      "description": "Wywiad z lekarzem medycyny Dr Don VerHulst (40 lat praktyki) o plastrach X39 LifeWave i fototerapii.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/emaauU2X8vw/maxresdefault.jpg",
+      "uploadDate": "2026-01-01",
+      "duration": "PT10M15S",
+      "embedUrl": "https://www.youtube-nocookie.com/embed/emaauU2X8vw"
     }
   ]
 }
@@ -73,313 +97,75 @@
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="nav" id="nav">
-  <div class="nav__inner">
-    <a href="index.html" class="nav__logo">
-      <span class="nav__logo-dot" aria-hidden="true"></span>
-      <span>X39 · regeneracja komórek</span>
-    </a>
-    <div class="nav__links">
-      <a href="index.html" class="active">Start</a>
-      <a href="produkt.html">Produkt</a>
-      <a href="zespol.html">Zespół</a>
-      <a href="o-mnie.html">O mnie</a>
-      <a href="kontakt.html">Kontakt</a>
-    </div>
-    <div class="nav__cta">
-      <a href="produkt.html#kup" class="btn btn-primary btn-sm">Kup plaster</a>
-      <button class="nav__toggle" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('is-open')">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </div>
-</nav>
+<div id="x-loading"><div class="x-loading-spin" aria-label="Loading"></div></div>
+<div id="root"></div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero__inner">
-    <div>
-      <span class="eyebrow">LifeWave · Fototerapia · Komórki macierzyste</span>
-      <h1 class="hero__title">Światło, nauka i <em>komórki macierzyste</em>: przyszłość regeneracji.</h1>
-      <p class="hero__sub">Plaster X39 aktywuje Twoje własne komórki macierzyste do stanu młodzieńczego. Bez iniekcji, bez chemii, bez ryzyka. Działa Twoim ciepłem ciała — jak miniaturowa stacja radiowa wysyłająca precyzyjny sygnał świetlny.</p>
-      <div class="hero__actions">
-        <a href="produkt.html#kup" class="btn btn-primary btn-lg btn-arrow">Kup plaster X39</a>
-        <a href="zespol.html" class="btn btn-ghost btn-lg">Dołącz do zespołu</a>
-      </div>
-      <div class="hero__trust">
-        <div><strong>100+</strong> patentów</div>
-        <div><strong>80+</strong> badań klinicznych</div>
-        <div><strong>90 dni</strong> gwarancji zwrotu</div>
-      </div>
-    </div>
-    <div class="hero__visual">
-      <img src="https://res.cloudinary.com/dyw1pi3nt/image/upload/q_auto/f_auto/v1/lifewave-x39/hero-patch.png"
-           alt="Plaster X39 LifeWave z promieniem światła aktywującego komórki macierzyste"
-           class="hero__patch"
-           width="480" height="480"
-           onerror="this.style.display='none'">
-    </div>
-  </div>
-</section>
+<script type="text/babel" src="components/shared.jsx?v=1"></script>
+<script type="text/babel" src="components/nav_hero.jsx?v=1"></script>
+<script type="text/babel" src="components/sections.jsx?v=1"></script>
 
-<!-- MARQUEE -->
-<section class="marquee-section" aria-hidden="true">
-  <div class="marquee">
-    <div class="marquee__track">
-      <span>Fototerapia</span><span>·</span>
-      <span>Peptyd GHK-Cu</span><span>·</span>
-      <span>Komórki macierzyste</span><span>·</span>
-      <span>Reset 4200 genów</span><span>·</span>
-      <span>Biofotony</span><span>·</span>
-      <span>100+ patentów</span><span>·</span>
-      <span>80+ badań klinicznych</span><span>·</span>
-      <span>Fototerapia</span><span>·</span>
-      <span>Peptyd GHK-Cu</span><span>·</span>
-      <span>Komórki macierzyste</span><span>·</span>
-      <span>Reset 4200 genów</span><span>·</span>
-      <span>Biofotony</span><span>·</span>
-      <span>100+ patentów</span><span>·</span>
-      <span>80+ badań klinicznych</span><span>·</span>
-    </div>
-  </div>
-</section>
+<script type="text/babel">
+const { useState, useEffect } = React;
 
-<!-- SECTION 1: Twoje ciało to bateria -->
-<section class="section">
-  <div class="container">
-    <div class="section__head center reveal">
-      <span class="eyebrow">Jak to działa</span>
-      <h2 class="section__title">Twoje ciało jest <em>baterią</em>.</h2>
-      <p class="section__sub">Technologia LifeWave to zaawansowana fototerapia. Nasze ciało emituje ciepło, które w rzeczywistości jest światłem podczerwonym. Plaster działa jak lustro — odbija to światło z powrotem na precyzyjnej długości fali. Nic nie przenika do krwi. To sygnał świetlny.</p>
-    </div>
-    <div class="steps reveal">
-      <div class="step">
-        <div class="step__number">1</div>
-        <h4>Ciało emituje ciepło</h4>
-        <p>Twoja temperatura ciała to w rzeczywistości światło podczerwone — naturalna energia, którą wysyłasz 24h/dobę.</p>
-      </div>
-      <div class="steps__arrow" aria-hidden="true">→</div>
-      <div class="step">
-        <div class="step__number">2</div>
-        <h4>Plaster jak lustro</h4>
-        <p>Zawiera opatentowane organiczne kryształy zamknięte w polimerowej powłoce. Odbijają światło na specyficznej długości fali.</p>
-      </div>
-      <div class="steps__arrow" aria-hidden="true">→</div>
-      <div class="step">
-        <div class="step__number">3</div>
-        <h4>Sygnał wraca do ciała</h4>
-        <p>Fala świetlna wraca o zmienionej, precyzyjnej częstotliwości. Aktywuje peptyd miedzi GHK-Cu w organizmie.</p>
-      </div>
-    </div>
-  </div>
-</section>
+function detectLocale() {
+  // Priority: URL ?lang=, localStorage, browser, default 'pl'
+  try {
+    const urlLang = new URLSearchParams(location.search).get("lang");
+    if (urlLang && ["pl","en","de"].includes(urlLang)) return urlLang;
+  } catch(e) {}
+  try {
+    const stored = localStorage.getItem("x39_lang");
+    if (stored && ["pl","en","de"].includes(stored)) return stored;
+  } catch(e) {}
+  const browser = (navigator.language || "pl").slice(0,2).toLowerCase();
+  return ["pl","en","de"].includes(browser) ? browser : "pl";
+}
 
-<!-- SECTION 2: GHK-Cu -->
-<section class="section section--soft">
-  <div class="container">
-    <div class="grid-2">
-      <div class="reveal">
-        <span class="eyebrow">Cel sygnału</span>
-        <h2 class="section__title">Peptyd miedzi <em>GHK-Cu</em> — główny modulator regeneracji.</h2>
-        <p class="lead mt-2">Precyzyjna fala świetlna odbita przez plaster X39 ma jedno zadanie: podnieść poziom peptydu GHK-Cu. Badania pokazują, że ten peptyd potrafi zresetować ponad <strong>4200 genów</strong> do ich młodszego, zdrowszego stanu — jak przywrócenie systemu operacyjnego do ustawień fabrycznych.</p>
-        <p class="small mt-2">Działanie peptydu miedzi jest szeroko udokumentowane w National Institute of Health oraz bibliotece PubMed.</p>
-      </div>
-      <div class="reveal">
-        <ul class="value-list">
-          <li><div><strong>Przyspieszone gojenie ran</strong><p>i redukcja stanów zapalnych w organizmie.</p></div></li>
-          <li><div><strong>Zwiększona produkcja kolagenu</strong><p>młodsza, jędrniejsza skóra, mniej zmarszczek.</p></div></li>
-          <li><div><strong>Ochrona antynowotworowa</strong><p>i naprawa uszkodzeń DNA.</p></div></li>
-          <li><div><strong>Poprawa pracy mózgu</strong><p>i całego układu nerwowego.</p></div></li>
-          <li><div><strong>Uszczelnienie jelit</strong><p>i regeneracja układu trawiennego.</p></div></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+function App() {
+  const [locale, setLocale] = useState(detectLocale());
+  const t = COPY[locale];
 
-<!-- SECTION 3: Stem cells / age curve -->
-<section class="section">
-  <div class="container">
-    <div class="section__head center reveal">
-      <span class="eyebrow">Święty Graal</span>
-      <h2 class="section__title">Aktywacja Twoich <em>własnych</em> komórek macierzystych.</h2>
-      <p class="section__sub">Komórki macierzyste to nasza naturalna „ekipa remontowa". Mogą zamienić się w dowolną tkankę — serce, wątrobę, kości, skórę — zastępując zużyte i uszkodzone komórki nowymi. Problem: z wiekiem ich aktywność dramatycznie spada.</p>
-    </div>
-    <div class="grid-2 mt-6 reveal">
-      <div class="card">
-        <h3>W wieku 30 lat</h3>
-        <p class="lead">Produkcja komórek macierzystych <strong>spada o 50%</strong>. Pojawiają się pierwsze zmarszczki, regeneracja po wysiłku trwa dłużej.</p>
-      </div>
-      <div class="card">
-        <h3>W wieku 60 lat</h3>
-        <p class="lead">Pozostaje tylko <strong>10–20%</strong> aktywnych komórek macierzystych. Organizm nie nadąża z wymianą uszkodzonych komórek.</p>
-      </div>
-    </div>
-    <p class="text-center mt-6 small reveal">Źródło: PDF prezentacji LifeWave, strona 9. Klinicznie potwierdzone dane.</p>
-  </div>
-</section>
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.title = locale === "pl"
+      ? "X39 LifeWave — Aktywuj swoje komórki macierzyste bez iniekcji"
+      : locale === "en"
+        ? "X39 LifeWave — Activate your stem cells without injections"
+        : "X39 LifeWave — Aktiviere deine Stammzellen ohne Injektionen";
+  }, [locale]);
 
-<!-- SECTION 4: Comparison X39 vs injection -->
-<section class="section section--soft">
-  <div class="container">
-    <div class="section__head center reveal">
-      <span class="eyebrow">Inwazyjne metody vs. LifeWave</span>
-      <h2 class="section__title">Klinika za 10 000 USD — czy plaster za ułamek ceny.</h2>
-    </div>
-    <div class="compare reveal">
-      <div class="compare__col">
-        <h3>Tradycyjne iniekcje stem cells</h3>
-        <ul>
-          <li>Pobieranie komórek pępowinowych (obce DNA)</li>
-          <li>Koszt: ok. 10 000 USD za terapię</li>
-          <li>Bolesne i ryzykowne procedury</li>
-          <li>Często stare i mało aktywne komórki</li>
-          <li>Wymaga wizyt w klinice</li>
-        </ul>
-      </div>
-      <div class="compare__col compare__col--us">
-        <h3>Plaster X39</h3>
-        <ul>
-          <li>Aktywacja TWOICH własnych komórek</li>
-          <li>Bez iniekcji, bez chemii, bez ryzyka</li>
-          <li>Ułamek kosztów terapii klinicznych</li>
-          <li>Komórki w stanie młodzieńczym</li>
-          <li>12h dziennie, w domu, na karku lub pod pępkiem</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+  useEffect(() => {
+    // Hide loading splash once mounted
+    const el = document.getElementById("x-loading");
+    if (el) {
+      requestAnimationFrame(() => el.classList.add("is-hidden"));
+      setTimeout(() => el.remove(), 700);
+    }
+  }, []);
 
-<!-- SECTION 5: Dr Don VerHulst video -->
-<section class="section">
-  <div class="container">
-    <div class="section__head center reveal">
-      <span class="eyebrow">Opinia lekarza</span>
-      <h2 class="section__title">Dr Don VerHulst — <em>40 lat</em> w medycynie.</h2>
-      <p class="section__sub">Lekarz medycyny z 40-letnim stażem, naturopata. Najpierw sceptyk, potem zwolennik. Posłuchaj jego historii o tym, jak sprawdzał badania kliniczne X39.</p>
-    </div>
-    <div class="video-embed reveal" data-yt="emaauU2X8vw" onclick="loadYT(this)">
-      <img src="https://i.ytimg.com/vi/emaauU2X8vw/maxresdefault.jpg"
-           alt="Dr Don VerHulst o bioelektrodach — wywiad o X39"
-           class="video-embed__thumb"
-           loading="lazy">
-      <div class="video-embed__play"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div>
-    </div>
-    <p class="video-embed__caption reveal">YouTube · 10:15 · z napisami PL (auto)</p>
-  </div>
-</section>
+  return (
+    <AppCtx.Provider value={{ t, locale, setLocale }}>
+      <Nav/>
+      <Hero/>
+      <BodyBatterySection/>
+      <PeptideSection/>
+      <AgeSection/>
+      <CompareSection/>
+      <AuthoritySection/>
+      <TimelineSection/>
+      <HowSection/>
+      <ScienceSection/>
+      <GuaranteeSection/>
+      <TeamSection/>
+      <FaqSection/>
+      <ContactSection/>
+      <Footer/>
+    </AppCtx.Provider>
+  );
+}
 
-<!-- SECTION 6: Timeline -->
-<section class="section section--soft">
-  <div class="container">
-    <div class="section__head center reveal">
-      <span class="eyebrow">Czego się spodziewać</span>
-      <h2 class="section__title">Pierwsze efekty już <em>w pierwszym tygodniu</em>.</h2>
-      <p class="section__sub">Według danych LifeWave i obserwacji Dr Don VerHulsta — efekty pojawiają się stopniowo. 80% użytkowników zauważa coś znaczącego w ciągu 3–6 tygodni.</p>
-    </div>
-    <div class="timeline reveal">
-      <div class="timeline__item">
-        <div class="timeline__dot">1–30<br>dni</div>
-        <h4>Energia i sen</h4>
-        <p>Lepszy sen, więcej energii w ciągu dnia. Ok. 50% użytkowników czuje różnicę od razu.</p>
-      </div>
-      <div class="timeline__item">
-        <div class="timeline__dot">1–3<br>mies.</div>
-        <h4>Skóra i kolagen</h4>
-        <p>Wygładzenie zmarszczek, poprawa jakości skóry dzięki produkcji kolagenu. Ponad 90% użytkowników widzi zmiany.</p>
-      </div>
-      <div class="timeline__item">
-        <div class="timeline__dot">6<br>mies.</div>
-        <h4>Układ krążenia</h4>
-        <p>Badania wykazały odmłodzenie układu sercowo-naczyniowego o ponad 8 lat.</p>
-      </div>
-    </div>
-  </div>
-</section>
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
 
-<!-- SECTION 7: Trust strip -->
-<section class="trust-strip">
-  <div class="container">
-    <div class="trust-strip__grid reveal">
-      <div class="trust-strip__stat">
-        <strong>100+</strong>
-        <span>patentów międzynarodowych</span>
-      </div>
-      <div class="trust-strip__stat">
-        <strong>80+</strong>
-        <span>badań klinicznych</span>
-      </div>
-      <div class="trust-strip__stat">
-        <strong>90 dni</strong>
-        <span>gwarancji zwrotu</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA SECTION -->
-<section class="cta-section">
-  <div class="container">
-    <h2 class="section__title">Twoja droga do regeneracji <em>zaczyna się tutaj</em>.</h2>
-    <p class="lead">Dwie ścieżki, jedna technologia. Wybierz tę, która pasuje do Ciebie.</p>
-    <div class="hero__actions">
-      <a href="produkt.html#kup" class="btn btn-primary btn-lg btn-arrow">Kup plaster X39</a>
-      <a href="zespol.html" class="btn btn-ghost btn-lg">Dołącz do zespołu</a>
-    </div>
-  </div>
-</section>
-
-<!-- DISCLAIMER -->
-<section class="disclaimer">
-  <div class="container">
-    <p><strong>Disclaimer medyczny:</strong> Plastry X39 nie są wyrobem medycznym w rozumieniu Dyrektywy 93/42/EWG. Nie diagnozują, nie leczą ani nie zapobiegają chorobom. Konsultuj się ze swoim lekarzem przed rozpoczęciem stosowania.</p>
-    <p><strong>Disclaimer biznesowy:</strong> Niezależny Dystrybutor LifeWave Corporation. Potencjał zarobkowy w biznesie z polecania zależy od indywidualnego zaangażowania. Brak gwarancji konkretnych przychodów.</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer__grid">
-      <div>
-        <div class="footer__brand">X39 · regeneracja komórek</div>
-        <p class="footer__tagline">Plaster fototerapii LifeWave. Niezależna dystrybucja — Piotr Muszyński.</p>
-      </div>
-      <div>
-        <h4>Produkt</h4>
-        <ul>
-          <li><a href="produkt.html">Jak działa X39</a></li>
-          <li><a href="produkt.html#cena">Cena i zakup</a></li>
-          <li><a href="produkt.html#faq">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Zespół</h4>
-        <ul>
-          <li><a href="zespol.html">Dla partnerów</a></li>
-          <li><a href="o-mnie.html">O mnie</a></li>
-          <li><a href="kontakt.html">Kontakt</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Prawne</h4>
-        <ul>
-          <li><a href="polityka-prywatnosci.html">Polityka prywatności</a></li>
-          <li><a href="regulamin.html">Regulamin</a></li>
-          <li><a href="cookies.html">Cookies</a></li>
-          <li><a href="impressum.html">Impressum</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer__bottom">
-      <div>© 2026 Piotr Muszyński · Independent LifeWave Distributor</div>
-      <div><a href="https://muszynski.online" target="_blank" rel="noopener">muszynski.online</a></div>
-    </div>
-  </div>
-</footer>
-
-<script src="script.js"></script>
 </body>
 </html>

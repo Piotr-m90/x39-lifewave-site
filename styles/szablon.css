@@ -1,0 +1,501 @@
+/* ==========================================================================
+   Szablon Design System — Colors & Typography
+   Inspired by Apple's design language.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------
+     COLORS — Primary surfaces
+     ------------------------------------------------------------------ */
+  --sz-black: #000000;            /* Hero / immersive backgrounds */
+  --sz-light-gray: #f5f5f7;       /* Alternate / informational sections */
+  --sz-near-black: #1d1d1f;       /* Primary text on light; dark button fills */
+  --sz-white: #ffffff;
+
+  /* Interactive — the ONLY chromatic colors */
+  --sz-blue: #0071e3;             /* Primary CTA, focus color */
+  --sz-link-blue: #0066cc;        /* Inline links on light bg */
+  --sz-bright-blue: #2997ff;      /* Links on dark bg */
+
+  /* Text */
+  --sz-text-primary-dark: #1d1d1f;
+  --sz-text-primary-light: #ffffff;
+  --sz-text-secondary-light: rgba(0, 0, 0, 0.8);
+  --sz-text-tertiary-light: rgba(0, 0, 0, 0.48);
+
+  /* Dark surfaces */
+  --sz-dark-surface-1: #272729;
+  --sz-dark-surface-2: #262628;
+  --sz-dark-surface-3: #28282a;
+  --sz-dark-surface-4: #2a2a2d;
+  --sz-dark-surface-5: #242426;
+
+  /* Button states */
+  --sz-button-active: #ededf2;
+  --sz-button-default-light: #fafafc;
+  --sz-overlay: rgba(210, 210, 215, 0.64);
+  --sz-white-32: rgba(255, 255, 255, 0.32);
+
+  /* Borders (rarely used) */
+  --sz-border-subtle: rgba(0, 0, 0, 0.04);
+
+  /* Shadows */
+  --sz-shadow-card: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+
+  /* Focus ring */
+  --sk-focus-color: #0071e3;
+
+  /* ------------------------------------------------------------------
+     SEMANTIC COLOR TOKENS
+     ------------------------------------------------------------------ */
+  --sz-bg: var(--sz-white);
+  --sz-bg-alt: var(--sz-light-gray);
+  --sz-bg-hero: var(--sz-black);
+  --sz-fg: var(--sz-near-black);
+  --sz-fg-muted: var(--sz-text-secondary-light);
+  --sz-fg-subtle: var(--sz-text-tertiary-light);
+  --sz-fg-inverse: var(--sz-white);
+  --sz-link: var(--sz-link-blue);
+  --sz-accent: var(--sz-blue);
+
+  /* ------------------------------------------------------------------
+     TYPOGRAPHY — Families
+     SF Pro Display ≥ 20px   |   SF Pro Text < 20px
+     ------------------------------------------------------------------ */
+  --sz-font-display: "SF Pro Display", "SF Pro Icons", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --sz-font-text: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+
+  /* ------------------------------------------------------------------
+     TYPOGRAPHY — Scale tokens (role-based)
+     Each token carries: size / weight / line-height / letter-spacing
+     ------------------------------------------------------------------ */
+
+  /* Display hero — 56px */
+  --sz-display-hero-size: 3.5rem;       /* 56px */
+  --sz-display-hero-weight: 600;
+  --sz-display-hero-lh: 1.07;
+  --sz-display-hero-ls: -0.28px;
+
+  /* Section heading — 40px */
+  --sz-section-size: 2.5rem;            /* 40px */
+  --sz-section-weight: 600;
+  --sz-section-lh: 1.10;
+  --sz-section-ls: normal;
+
+  /* Tile heading — 28px */
+  --sz-tile-size: 1.75rem;              /* 28px */
+  --sz-tile-weight: 400;
+  --sz-tile-lh: 1.14;
+  --sz-tile-ls: 0.196px;
+
+  /* Card title — 21px bold */
+  --sz-card-title-size: 1.3125rem;      /* 21px */
+  --sz-card-title-weight: 700;
+  --sz-card-title-lh: 1.19;
+  --sz-card-title-ls: 0.231px;
+
+  /* Sub-heading — 21px regular */
+  --sz-subhead-size: 1.3125rem;
+  --sz-subhead-weight: 400;
+  --sz-subhead-lh: 1.19;
+  --sz-subhead-ls: 0.231px;
+
+  /* Nav heading — 34px */
+  --sz-nav-heading-size: 2.125rem;      /* 34px */
+  --sz-nav-heading-weight: 600;
+  --sz-nav-heading-lh: 1.47;
+  --sz-nav-heading-ls: -0.374px;
+
+  /* Sub-nav — 24px light */
+  --sz-subnav-size: 1.5rem;             /* 24px */
+  --sz-subnav-weight: 300;
+  --sz-subnav-lh: 1.5;
+  --sz-subnav-ls: normal;
+
+  /* Body — 17px */
+  --sz-body-size: 1.0625rem;            /* 17px */
+  --sz-body-weight: 400;
+  --sz-body-lh: 1.47;
+  --sz-body-ls: -0.374px;
+
+  /* Body emphasis — 17px 600 tight */
+  --sz-body-em-size: 1.0625rem;
+  --sz-body-em-weight: 600;
+  --sz-body-em-lh: 1.24;
+  --sz-body-em-ls: -0.374px;
+
+  /* Buttons */
+  --sz-btn-large-size: 1.125rem;        /* 18px */
+  --sz-btn-large-weight: 300;
+  --sz-btn-large-lh: 1;
+
+  --sz-btn-size: 1.0625rem;             /* 17px */
+  --sz-btn-weight: 400;
+  --sz-btn-lh: 2.41;
+
+  /* Link — 14px */
+  --sz-link-size: 0.875rem;
+  --sz-link-weight: 400;
+  --sz-link-lh: 1.43;
+  --sz-link-ls: -0.224px;
+
+  /* Caption — 14px */
+  --sz-caption-size: 0.875rem;
+  --sz-caption-weight: 400;
+  --sz-caption-lh: 1.29;
+  --sz-caption-ls: -0.224px;
+
+  --sz-caption-bold-weight: 600;
+
+  /* Micro — 12px */
+  --sz-micro-size: 0.75rem;
+  --sz-micro-weight: 400;
+  --sz-micro-lh: 1.33;
+  --sz-micro-ls: -0.12px;
+
+  /* Nano — 10px */
+  --sz-nano-size: 0.625rem;
+  --sz-nano-weight: 400;
+  --sz-nano-lh: 1.47;
+  --sz-nano-ls: -0.08px;
+
+  /* ------------------------------------------------------------------
+     SPACING — Base unit 8px, dense micro scale for type alignment
+     ------------------------------------------------------------------ */
+  --sz-space-2: 2px;
+  --sz-space-4: 4px;
+  --sz-space-5: 5px;
+  --sz-space-6: 6px;
+  --sz-space-7: 7px;
+  --sz-space-8: 8px;
+  --sz-space-9: 9px;
+  --sz-space-10: 10px;
+  --sz-space-11: 11px;
+  --sz-space-14: 14px;
+  --sz-space-15: 15px;
+  --sz-space-17: 17px;
+  --sz-space-20: 20px;
+  --sz-space-24: 24px;
+  --sz-space-32: 32px;
+  --sz-space-48: 48px;
+  --sz-space-64: 64px;
+  --sz-space-96: 96px;
+  --sz-space-120: 120px;
+
+  /* Content widths */
+  --sz-content-max: 980px;
+
+  /* ------------------------------------------------------------------
+     RADIUS
+     ------------------------------------------------------------------ */
+  --sz-radius-micro: 5px;
+  --sz-radius-standard: 8px;
+  --sz-radius-comfortable: 11px;
+  --sz-radius-large: 12px;
+  --sz-radius-pill: 980px;
+  --sz-radius-circle: 50%;
+
+  /* ------------------------------------------------------------------
+     MOTION
+     ------------------------------------------------------------------ */
+  --sz-ease: cubic-bezier(0.28, 0, 0.22, 1);     /* Apple-style ease */
+  --sz-ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --sz-duration-fast: 150ms;
+  --sz-duration-base: 300ms;
+  --sz-duration-slow: 500ms;
+
+  /* ------------------------------------------------------------------
+     ELEVATION / GLASS
+     ------------------------------------------------------------------ */
+  --sz-nav-glass-bg: rgba(0, 0, 0, 0.8);
+  --sz-nav-glass-filter: saturate(180%) blur(20px);
+}
+
+/* ==========================================================================
+   SEMANTIC TYPE CLASSES — apply the role tokens
+   ========================================================================== */
+
+.sz-display,
+h1.sz-display {
+  font-family: var(--sz-font-display);
+  font-size: var(--sz-display-hero-size);
+  font-weight: var(--sz-display-hero-weight);
+  line-height: var(--sz-display-hero-lh);
+  letter-spacing: var(--sz-display-hero-ls);
+}
+
+.sz-h1 {
+  font-family: var(--sz-font-display);
+  font-size: var(--sz-section-size);
+  font-weight: var(--sz-section-weight);
+  line-height: var(--sz-section-lh);
+  letter-spacing: var(--sz-section-ls);
+}
+
+.sz-h2 {
+  font-family: var(--sz-font-display);
+  font-size: var(--sz-tile-size);
+  font-weight: var(--sz-tile-weight);
+  line-height: var(--sz-tile-lh);
+  letter-spacing: var(--sz-tile-ls);
+}
+
+.sz-h3 {
+  font-family: var(--sz-font-display);
+  font-size: var(--sz-card-title-size);
+  font-weight: var(--sz-card-title-weight);
+  line-height: var(--sz-card-title-lh);
+  letter-spacing: var(--sz-card-title-ls);
+}
+
+.sz-subhead {
+  font-family: var(--sz-font-display);
+  font-size: var(--sz-subhead-size);
+  font-weight: var(--sz-subhead-weight);
+  line-height: var(--sz-subhead-lh);
+  letter-spacing: var(--sz-subhead-ls);
+}
+
+.sz-nav-heading {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-nav-heading-size);
+  font-weight: var(--sz-nav-heading-weight);
+  line-height: var(--sz-nav-heading-lh);
+  letter-spacing: var(--sz-nav-heading-ls);
+}
+
+.sz-subnav {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-subnav-size);
+  font-weight: var(--sz-subnav-weight);
+  line-height: var(--sz-subnav-lh);
+  letter-spacing: var(--sz-subnav-ls);
+}
+
+.sz-body,
+p.sz-body {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-body-size);
+  font-weight: var(--sz-body-weight);
+  line-height: var(--sz-body-lh);
+  letter-spacing: var(--sz-body-ls);
+}
+
+.sz-body-em {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-body-em-size);
+  font-weight: var(--sz-body-em-weight);
+  line-height: var(--sz-body-em-lh);
+  letter-spacing: var(--sz-body-em-ls);
+}
+
+.sz-link-text {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-link-size);
+  font-weight: var(--sz-link-weight);
+  line-height: var(--sz-link-lh);
+  letter-spacing: var(--sz-link-ls);
+}
+
+.sz-caption {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-caption-size);
+  font-weight: var(--sz-caption-weight);
+  line-height: var(--sz-caption-lh);
+  letter-spacing: var(--sz-caption-ls);
+}
+
+.sz-caption-bold {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-caption-size);
+  font-weight: var(--sz-caption-bold-weight);
+  line-height: var(--sz-caption-lh);
+  letter-spacing: var(--sz-caption-ls);
+}
+
+.sz-micro {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-micro-size);
+  font-weight: var(--sz-micro-weight);
+  line-height: var(--sz-micro-lh);
+  letter-spacing: var(--sz-micro-ls);
+}
+
+.sz-nano {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-nano-size);
+  font-weight: var(--sz-nano-weight);
+  line-height: var(--sz-nano-lh);
+  letter-spacing: var(--sz-nano-ls);
+}
+
+/* ==========================================================================
+   BASE RESETS (opinionated for Szablon)
+   ========================================================================== */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-body-size);
+  line-height: var(--sz-body-lh);
+  letter-spacing: var(--sz-body-ls);
+  color: var(--sz-fg);
+  background: var(--sz-bg);
+}
+
+a {
+  color: var(--sz-link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--sk-focus-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   COMPONENT PRIMITIVES
+   ========================================================================== */
+
+/* Buttons */
+.sz-btn {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-btn-size);
+  font-weight: var(--sz-btn-weight);
+  line-height: 1;
+  padding: 8px 15px;
+  border-radius: var(--sz-radius-standard);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--sz-duration-fast) var(--sz-ease);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+}
+
+.sz-btn-primary {
+  background: var(--sz-blue);
+  color: #fff;
+}
+.sz-btn-primary:hover { background: #0077ed; }
+.sz-btn-primary:active { background: #006edb; }
+
+.sz-btn-dark {
+  background: var(--sz-near-black);
+  color: #fff;
+}
+.sz-btn-dark:hover { background: #2a2a2c; }
+
+.sz-btn-pill {
+  border-radius: var(--sz-radius-pill);
+  padding: 11px 22px;
+  background: transparent;
+  color: var(--sz-link-blue);
+  border: 1px solid var(--sz-link-blue);
+  font-size: var(--sz-body-size);
+}
+.sz-btn-pill:hover {
+  background: var(--sz-link-blue);
+  color: #fff;
+  text-decoration: none;
+}
+.sz-btn-pill--filled {
+  background: var(--sz-link-blue);
+  color: #fff;
+}
+.sz-btn-pill--filled:hover {
+  background: #0077ed;
+  border-color: #0077ed;
+}
+.sz-btn-pill--dark {
+  color: var(--sz-bright-blue);
+  border-color: var(--sz-bright-blue);
+}
+.sz-btn-pill--dark:hover {
+  background: var(--sz-bright-blue);
+  color: #000;
+}
+
+.sz-btn-filter {
+  background: var(--sz-button-default-light);
+  color: var(--sz-text-secondary-light);
+  padding: 0 14px;
+  border-radius: var(--sz-radius-comfortable);
+  border: 3px solid var(--sz-border-subtle);
+  min-height: 32px;
+}
+
+.sz-btn-media {
+  background: var(--sz-overlay);
+  color: var(--sz-text-tertiary-light);
+  border-radius: var(--sz-radius-circle);
+  border: none;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--sz-duration-fast) var(--sz-ease);
+}
+.sz-btn-media:active { transform: scale(0.9); }
+
+/* Inline chevron link — the signature "Learn more ›" */
+.sz-learn-link {
+  font-family: var(--sz-font-text);
+  font-size: var(--sz-link-size);
+  color: var(--sz-link-blue);
+  letter-spacing: var(--sz-link-ls);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.sz-learn-link::after {
+  content: "\203A"; /* single right-pointing angle */
+  margin-left: 2px;
+  font-size: 1.1em;
+  line-height: 1;
+  display: inline-block;
+  transform: translateY(-1px);
+}
+.sz-learn-link:hover { text-decoration: underline; }
+
+.sz-learn-link--dark { color: var(--sz-bright-blue); }
+
+/* Cards */
+.sz-card {
+  background: var(--sz-light-gray);
+  border-radius: var(--sz-radius-standard);
+  padding: var(--sz-space-24);
+}
+.sz-card--elevated {
+  background: #fff;
+  box-shadow: var(--sz-shadow-card);
+}
+.sz-card--dark {
+  background: var(--sz-dark-surface-1);
+  color: var(--sz-white);
+}
+
+/* Navigation glass */
+.sz-nav {
+  background: var(--sz-nav-glass-bg);
+  backdrop-filter: var(--sz-nav-glass-filter);
+  -webkit-backdrop-filter: var(--sz-nav-glass-filter);
+  height: 48px;
+  color: var(--sz-white);
+}
