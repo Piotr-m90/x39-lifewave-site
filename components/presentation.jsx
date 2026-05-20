@@ -21,13 +21,27 @@ function VizDefs() {
    Pass `id` (unique within scene), `fired` set, `onFire` handler. */
 function Zone({ id, fired, onFire, label, children }) {
   const isFired = fired.has(id);
+  const ref = useRefP(null);
+  // Każde dotknięcie/klik = wyraźny bounce (re-triggeruje się za każdym razem).
+  // Na telefonie nie ma hovera, więc to jest główny sygnał "to się rusza, klikaj".
+  const bounce = () => {
+    const el = ref.current;
+    if (el && el.animate) {
+      el.animate(
+        [{ transform: "scale(1)" }, { transform: "scale(1.14)" }, { transform: "scale(0.95)" }, { transform: "scale(1)" }],
+        { duration: 440, easing: "cubic-bezier(0.34,1.56,0.64,1)" }
+      );
+    }
+  };
+  const fire = (e) => { e.stopPropagation(); onFire(id); bounce(); };
   return (
     <g
+      ref={ref}
       className={"x-iz" + (isFired ? " is-fired" : "")}
-      onClick={(e) => { e.stopPropagation(); onFire(id); }}
+      onClick={fire}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onFire(id); } }}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fire(e); } }}
       aria-label={label}
     >
       {children}
