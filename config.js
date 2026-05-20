@@ -12,8 +12,8 @@ window.X39_CONFIG = {
   links: {
     // Wklej po rejestracji w LifeWave (zwykle https://lifewave.com/{ID} lub https://lifewavemember.com/{ID})
     buy: "",
-    // TidyCal event do utworzenia w UI: 15 min, bezpłatnie
-    tidycal: "https://tidycal.com/pmuszynski/lifewave-zespol",
+    // TidyCal — X39 rozmowa 15 min (event id 1918196, utworzony 2026-05-20, LIVE)
+    tidycal: "https://tidycal.com/pmuszynski/x39-lifewave-15min",
     // Formspree endpoint dla formularza kontaktowego
     formspree: "",
     // YT wywiad Dr Don VerHulst (social proof)
