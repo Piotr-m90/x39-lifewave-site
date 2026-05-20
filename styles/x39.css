@@ -322,6 +322,9 @@ ul { list-style: none; padding: 0; margin: 0; }
   transition: opacity var(--x-t-fast);
 }
 .x-nav-sub__links a:hover { opacity: 1; text-decoration: none; }
+/* Utility CTA inside sub-nav — keep white text on dark fill (beats link color: ink) */
+.x-nav-sub__links a.x-btn--utility { color: var(--x-body-on-dark); opacity: 1; }
+.x-nav-sub__links a.x-btn--utility:hover { color: var(--x-body-on-dark); }
 @media (max-width: 833px) {
   .x-nav-sub__links { display: none; }
 }
