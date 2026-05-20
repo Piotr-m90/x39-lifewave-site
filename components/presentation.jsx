@@ -322,15 +322,15 @@ function PeptideViz({ cls, active, fired, onFire }) {
   const reset = fired.has("reset");
   useEffectP(() => {
     if (!reset) { setCount(0); return; }
-    const dur = 1600, start = performance.now();
-    let raf;
-    const tick = (now) => {
-      const p = Math.min(1, (now - start) / dur);
+    const steps = 34, dur = 1600;
+    let i = 0;
+    const iv = setInterval(() => {
+      i++;
+      const p = Math.min(1, i / steps);
       setCount(Math.floor((1 - Math.pow(1 - p, 3)) * 4200));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+      if (p >= 1) clearInterval(iv);
+    }, dur / steps);
+    return () => clearInterval(iv);
   }, [reset]);
   return (
     <svg className={cls} viewBox="0 0 480 340" role="img" aria-label="Peptyd miedzi GHK-Cu — kliknij, by zresetować geny">
