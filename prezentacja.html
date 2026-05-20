@@ -2,20 +2,20 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zespół X39 — Dołącz do biznesu regeneracji | LifeWave Distributor</title>
-<meta name="description" content="Buduję wyselekcjonowany zespół dystrybutorów X39 LifeWave w Polsce i polonii DACH. 8-12 partnerów na rok. Standardowy pakiet LifeWave + EXTRA materiały, eventy, mentoring.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>X39 LifeWave — Prezentacja multimedialna | Poznaj projekt</title>
+<meta name="description" content="Multimedialna prezentacja technologii X39 LifeWave w 16 slajdach: fototerapia, peptyd GHK-Cu, aktywacja komórek macierzystych. Pełnoekranowy pokaz z wizualizacjami.">
 <meta name="theme-color" content="#C9A38A">
 
-<meta property="og:title" content="Zespół X39 LifeWave — Dołącz do biznesu regeneracji">
-<meta property="og:description" content="Selekcja, nie obietnica. Standardowy pakiet LifeWave + materiały, eventy, mentoring 3 miesiące.">
+<meta property="og:title" content="X39 LifeWave — Prezentacja multimedialna">
+<meta property="og:description" content="Poznaj technologię X39 w 16 animowanych slajdach. Światło, nauka i komórki macierzyste.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://x39.fabrykatresci.tech/zespol.html">
+<meta property="og:url" content="https://x39.fabrykatresci.tech/prezentacja.html">
 
-<link rel="canonical" href="https://x39.fabrykatresci.tech/zespol.html">
-<link rel="alternate" hreflang="pl" href="https://x39.fabrykatresci.tech/zespol.html">
-<link rel="alternate" hreflang="en" href="https://x39.fabrykatresci.tech/zespol.html?lang=en">
-<link rel="alternate" hreflang="de" href="https://x39.fabrykatresci.tech/zespol.html?lang=de">
+<link rel="canonical" href="https://x39.fabrykatresci.tech/prezentacja.html">
+<link rel="alternate" hreflang="pl" href="https://x39.fabrykatresci.tech/prezentacja.html">
+<link rel="alternate" hreflang="en" href="https://x39.fabrykatresci.tech/prezentacja.html?lang=en">
+<link rel="alternate" hreflang="de" href="https://x39.fabrykatresci.tech/prezentacja.html?lang=de">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='30%25' cy='30%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23F4D9C2'/%3E%3Cstop offset='50%25' stop-color='%23E8C5A8'/%3E%3Cstop offset='100%25' stop-color='%23A8806A'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
 
@@ -31,18 +31,16 @@
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
 
 <style>
-  html, body { margin: 0; padding: 0; background: #ffffff; }
+  html, body { margin: 0; padding: 0; background: #f5f5f7; overflow: hidden; }
   #x-loading {
     position: fixed; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    background: #1A1410;
-    z-index: 9999;
+    background: #f5f5f7; z-index: 9999;
     transition: opacity 400ms ease, visibility 400ms;
   }
   #x-loading.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
   .x-loading-spin {
-    width: 56px; height: 56px;
-    border-radius: 50%;
+    width: 56px; height: 56px; border-radius: 50%;
     background: conic-gradient(from 0deg, #E8C5A8, #C9A38A, #A8806A, #E8C5A8);
     -webkit-mask: radial-gradient(circle at center, transparent 22px, black 23px);
             mask: radial-gradient(circle at center, transparent 22px, black 23px);
@@ -57,8 +55,7 @@
 <div id="root"></div>
 
 <script type="text/babel" src="components/shared.jsx?v=11"></script>
-<script type="text/babel" src="components/nav_hero.jsx?v=11"></script>
-<script type="text/babel" src="components/sections.jsx?v=11"></script>
+<script type="text/babel" src="components/presentation.jsx?v=11"></script>
 
 <script type="text/babel">
 const { useState, useEffect } = React;
@@ -76,40 +73,22 @@ function detectLocale() {
   return ["pl","en","de"].includes(browser) ? browser : "pl";
 }
 
-function TeamApp() {
+function DeckApp() {
   const [locale, setLocale] = useState(detectLocale());
   const t = COPY[locale];
-
-  useEffect(() => {
-    document.documentElement.lang = locale;
-    document.title = locale === "pl"
-      ? "Zespół X39 — Dołącz do biznesu regeneracji | LifeWave Distributor"
-      : locale === "en"
-        ? "X39 Team — Join the regeneration business | LifeWave Distributor"
-        : "X39 Team — Tritt dem Regenerationsgeschäft bei | LifeWave Distributor";
-  }, [locale]);
-
+  useEffect(() => { document.documentElement.lang = locale; }, [locale]);
   useEffect(() => {
     const el = document.getElementById("x-loading");
-    if (el) {
-      requestAnimationFrame(() => el.classList.add("is-hidden"));
-      setTimeout(() => el.remove(), 700);
-    }
+    if (el) { requestAnimationFrame(() => el.classList.add("is-hidden")); setTimeout(() => el.remove(), 700); }
   }, []);
-
   return (
     <AppCtx.Provider value={{ t, locale, setLocale }}>
-      <GlobalNav/>
-      <SubNav/>
-      <TeamHero/>
-      <TeamSection/>
-      <ContactSection/>
-      <Footer/>
+      <SlideDeck/>
     </AppCtx.Provider>
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<TeamApp/>);
+ReactDOM.createRoot(document.getElementById("root")).render(<DeckApp/>);
 </script>
 
 <script>
@@ -117,7 +96,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(<TeamApp/>);
     var l = document.getElementById("x-loading");
     var r = document.getElementById("root");
     if (l && (!r || r.children.length === 0)) {
-      l.innerHTML = '<div style="text-align:center;font-family:Inter,system-ui,sans-serif;color:#fff;padding:24px;max-width:420px"><p style="font-size:18px;font-weight:600;margin:0 0 8px">Strona ładuje się dłużej niż zwykle…</p><p style="font-size:14px;color:#B8A99C;margin:0">Odśwież: Cmd+Shift+R. Jeśli to nie pomoże — napisz: muszynski.online@gmail.com</p></div>';
+      l.innerHTML = '<div style="text-align:center;font-family:Inter,system-ui,sans-serif;color:#1d1d1f;padding:24px;max-width:420px"><p style="font-size:18px;font-weight:600;margin:0 0 8px">Prezentacja ładuje się dłużej niż zwykle…</p><p style="font-size:14px;color:#7a7a7a;margin:0">Odśwież: Cmd+Shift+R. Lub wróć na <a href="index.html" style="color:#A8806A">stronę główną</a>.</p></div>';
     }
   }, 10000);
 </script>

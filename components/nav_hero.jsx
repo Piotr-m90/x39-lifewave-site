@@ -140,8 +140,12 @@ function Hero() {
              target={buyLink.startsWith("http") ? "_blank" : "_self"}
              rel={buyLink.startsWith("http") ? "noopener" : undefined}
              className="x-btn x-btn--primary">{t.hero.cta}</a>
-          <a href="#team" className="x-btn x-btn--ghost">{t.hero.ghost}</a>
+          <a href="zespol.html" className="x-btn x-btn--ghost">{t.hero.ghost}</a>
         </div>
+        <a href="prezentacja.html" className="x-hero__deck-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M10 9l4 2.5L10 14z" fill="currentColor" stroke="none"/></svg>
+          <span>{t.deck.open}<small>{t.deck.openSub}</small></span>
+        </a>
         <ul className="x-hero__trust">
           {t.hero.trust.map((tt, i) => <li key={i}>{tt}</li>)}
         </ul>
