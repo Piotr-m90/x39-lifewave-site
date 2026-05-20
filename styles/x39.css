@@ -1772,7 +1772,8 @@ ul { list-style: none; padding: 0; margin: 0; }
 .x-iz { cursor: pointer; transition: filter 260ms ease, transform 260ms cubic-bezier(0.34,1.56,0.64,1); transform-box: fill-box; }
 .x-iz:hover { filter: brightness(1.1) drop-shadow(0 4px 16px rgba(201,163,138,0.5)); transform: scale(1.035); }
 .x-iz:active { transform: scale(0.98); transition-duration: 80ms; }
-.x-iz:focus-visible { outline: none; filter: drop-shadow(0 0 0 2px rgba(184,146,122,0.9)); }
+.x-iz:focus { outline: none; }
+.x-iz:focus-visible { outline: none; filter: drop-shadow(0 0 6px rgba(201,163,138,0.85)) brightness(1.08); }
 .x-iz.is-fired { filter: brightness(1.06) drop-shadow(0 6px 22px rgba(201,163,138,0.55)); }
 
 /* Subtle continuous motion (gentle — base elements mostly still) */
