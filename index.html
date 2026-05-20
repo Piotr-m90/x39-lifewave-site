@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="styles/x39.css?v=8">
+<link rel="stylesheet" href="styles/x39.css?v=9">
 
 <script src="config.js"></script>
 <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
@@ -99,9 +99,9 @@
 <div id="x-loading"><div class="x-loading-spin" aria-label="Loading"></div></div>
 <div id="root"></div>
 
-<script type="text/babel" src="components/shared.jsx?v=8"></script>
-<script type="text/babel" src="components/nav_hero.jsx?v=8"></script>
-<script type="text/babel" src="components/sections.jsx?v=8"></script>
+<script type="text/babel" src="components/shared.jsx?v=9"></script>
+<script type="text/babel" src="components/nav_hero.jsx?v=9"></script>
+<script type="text/babel" src="components/sections.jsx?v=9"></script>
 
 <script type="text/babel">
 const { useState, useEffect } = React;
@@ -164,6 +164,17 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+
+<script>
+  // Failsafe — if React render hasn't populated #root after 10s, surface a hint instead of an infinite spinner
+  setTimeout(function () {
+    var l = document.getElementById("x-loading");
+    var r = document.getElementById("root");
+    if (l && (!r || r.children.length === 0)) {
+      l.innerHTML = '<div style="text-align:center;font-family:Inter,system-ui,sans-serif;color:#1d1d1f;padding:24px;max-width:420px"><p style="font-size:18px;font-weight:600;margin:0 0 8px">Strona ładuje się dłużej niż zwykle…</p><p style="font-size:14px;color:#7a7a7a;margin:0">Odśwież: Cmd+Shift+R (Mac) / Ctrl+Shift+R (Win). Jeśli to nie pomoże — napisz: muszynski.online@gmail.com</p></div>';
+    }
+  }, 10000);
 </script>
 
 </body>

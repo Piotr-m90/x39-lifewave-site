@@ -1,5 +1,5 @@
 /* global React, COPY, AppCtx, useApp, useReveal */
-const { useState: useStateNH, useEffect: useEffectNH, useRef: useRefNH } = React;
+const { useState: useStateNH, useEffect: useEffectNH, useRef: useRefNH, useMemo: useMemoNH } = React;
 
 /* ------------------------------------------------------------------
    LangPicker — PL/EN/DE in global nav right cluster
