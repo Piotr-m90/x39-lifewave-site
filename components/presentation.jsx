@@ -39,10 +39,67 @@ function Zone({ id, fired, onFire, label, children, cx, cy }) {
 /* ==================================================================
    16 literal + interactive scenes
    ================================================================== */
+/* Photoreal AI-generated visuals (Higgsfield Nano Banana Pro) for key slides.
+   Hearthstone-style parallax tilt on cursor + glow. Peptide keeps the gene counter. */
+const PHOTO = {
+  hero: "assets/patch.webp",
+  stemcells: "assets/stemcells.webp",
+  peptide: "assets/peptide.webp",
+  cta: "assets/cta-light.webp",
+};
+
+function PhotoViz({ src, type, active, alt }) {
+  const [tilt, setTilt] = useStateP({ x: 0, y: 0, on: false });
+  const [count, setCount] = useStateP(0);
+  const [lit, setLit] = useStateP(false);
+  const isPeptide = type === "peptide";
+
+  useEffectP(() => { if (!active) { setLit(false); setCount(0); setTilt({ x: 0, y: 0, on: false }); } }, [active]);
+  useEffectP(() => {
+    if (!lit) { setCount(0); return; }
+    const steps = 34, dur = 1600; let i = 0;
+    const iv = setInterval(() => { i++; const p = Math.min(1, i/steps); setCount(Math.floor((1-Math.pow(1-p,3))*4200)); if (p>=1) clearInterval(iv); }, dur/steps);
+    return () => clearInterval(iv);
+  }, [lit]);
+
+  const onMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    setTilt({ x: py * -7, y: px * 9, on: true });
+  };
+  const onLeave = () => setTilt({ x: 0, y: 0, on: false });
+
+  return (
+    <div
+      className={"x-photo" + (active ? " is-active" : "") + (tilt.on ? " is-hover" : "") + (isPeptide ? " x-photo--click" : "")}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      onClick={isPeptide ? () => setLit(v => !v) : undefined}
+      role={isPeptide ? "button" : undefined}
+      style={{ transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
+    >
+      <div className="x-photo__shine" style={{ opacity: tilt.on ? 1 : 0, transform: `translate(${tilt.y * 6}px, ${tilt.x * -6}px)` }}/>
+      <img src={src} alt={alt} className="x-photo__img" loading="lazy"/>
+      {isPeptide && (
+        <div className="x-photo__counter">
+          <span className="x-photo__counter-num">{count.toLocaleString("pl-PL")}</span>
+          <span className="x-photo__counter-lbl">genów zresetowanych{lit ? "" : " — kliknij"}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SlideVisual({ type, active }) {
   const [fired, setFired] = useStateP(() => new Set());
   // reset interactions when slide leaves
   useEffectP(() => { if (!active) setFired(new Set()); }, [active]);
+  // Photoreal slides take priority over SVG
+  if (PHOTO[type]) {
+    const alts = { hero: "Plaster X39 LifeWave", stemcells: "Aktywacja komórek macierzystych", peptide: "Peptyd miedzi GHK-Cu i DNA", cta: "Twoja droga do zdrowia" };
+    return <PhotoViz src={PHOTO[type]} type={type} active={active} alt={alts[type] || "X39"}/>;
+  }
   const onFire = useCallbackP((id) => {
     setFired(prev => {
       const n = new Set(prev);

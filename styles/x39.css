@@ -1873,6 +1873,46 @@ ul { list-style: none; padding: 0; margin: 0; }
   .x-deck__slide.is-active .x-deck__cta { animation: none; }
 }
 
+/* Photoreal AI visuals (Higgsfield) — Hearthstone parallax tilt */
+.x-photo {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+  border-radius: var(--x-r-lg);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 240ms cubic-bezier(0.4,0,0.2,1), box-shadow 300ms ease;
+  box-shadow: 0 10px 40px rgba(168,128,106,0.22);
+  will-change: transform;
+}
+.x-photo.is-hover { box-shadow: 0 20px 60px rgba(168,128,106,0.4); transition-duration: 80ms; }
+.x-photo--click { cursor: pointer; }
+.x-photo__img { width: 100%; height: auto; display: block; border-radius: var(--x-r-lg); }
+.x-photo__shine {
+  position: absolute; inset: -20%;
+  background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.45), transparent 55%);
+  pointer-events: none; mix-blend-mode: soft-light;
+  transition: opacity 300ms ease, transform 120ms ease; z-index: 2;
+}
+.x-photo__counter {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 28px 16px 16px;
+  background: linear-gradient(to top, rgba(26,20,16,0.82), transparent);
+  text-align: center; z-index: 3;
+}
+.x-photo__counter-num {
+  display: block; font-family: var(--x-font-display);
+  font-size: clamp(32px, 6vw, 52px); font-weight: 600; line-height: 1;
+  color: #fff; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+.x-photo__counter-lbl { display: block; margin-top: 4px; font-size: 12px; color: var(--x-accent-on-dark); letter-spacing: 0.02em; }
+@media (prefers-reduced-motion: reduce) {
+  .x-photo { transform: none !important; transition: none; }
+  .x-photo__shine { display: none; }
+}
+
 /* Hint under copy */
 .x-deck__hint {
   display: block; margin-top: 20px;
@@ -1895,3 +1935,6 @@ ul { list-style: none; padding: 0; margin: 0; }
 .x-hero__deck-link:active { transform: scale(0.97); }
 .x-hero__deck-link svg { width: 18px; height: 18px; }
 .x-hero__deck-link small { display: block; font-size: 11px; opacity: 0.65; font-weight: 400; }
+
+/* Hero photoreal plaster (Higgsfield) */
+.x-hero__photo { width: 100%; max-width: 620px; height: auto; margin: 0 auto; border-radius: var(--x-r-lg); }

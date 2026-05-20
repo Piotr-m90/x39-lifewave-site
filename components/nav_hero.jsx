@@ -150,7 +150,7 @@ function Hero() {
           {t.hero.trust.map((tt, i) => <li key={i}>{tt}</li>)}
         </ul>
         <div className="x-hero__visual">
-          <HeroPatchSVG/>
+          <img src="assets/patch.webp" alt="Plaster X39 LifeWave" className="x-hero__photo" width="760" height="507" loading="eager"/>
         </div>
       </div>
     </section>
