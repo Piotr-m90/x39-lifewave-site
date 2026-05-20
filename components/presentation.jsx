@@ -19,7 +19,7 @@ function VizDefs() {
 
 /* Interactive zone — hover lights up (CSS), click fires a one-shot reaction.
    Pass `id` (unique within scene), `fired` set, `onFire` handler. */
-function Zone({ id, fired, onFire, label, children, cx, cy }) {
+function Zone({ id, fired, onFire, label, children }) {
   const isFired = fired.has(id);
   return (
     <g
@@ -29,7 +29,6 @@ function Zone({ id, fired, onFire, label, children, cx, cy }) {
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onFire(id); } }}
       aria-label={label}
-      style={cx != null ? { transformOrigin: cx + "px " + cy + "px" } : undefined}
     >
       {children}
     </g>
@@ -42,13 +41,16 @@ function Zone({ id, fired, onFire, label, children, cx, cy }) {
 /* Photoreal AI-generated visuals (Higgsfield Nano Banana Pro) for key slides.
    Hearthstone-style parallax tilt on cursor + glow. Peptide keeps the gene counter. */
 const PHOTO = {
-  hero: "assets/patch.webp",
-  stemcells: "assets/stemcells.webp",
-  peptide: "assets/peptide.webp",
+  hero: "assets/patch16.webp",
+  stemcells: "assets/stemcells16.webp",
+  peptide: "assets/peptide16.webp",
   cta: "assets/cta-light.webp",
+  howto: "assets/neck.webp",
+  relief: "assets/painrelief.webp",
 };
 
 function PhotoViz({ src, type, active, alt }) {
+  const { t } = useApp();
   const [tilt, setTilt] = useStateP({ x: 0, y: 0, on: false });
   const [count, setCount] = useStateP(0);
   const [lit, setLit] = useStateP(false);
@@ -62,13 +64,17 @@ function PhotoViz({ src, type, active, alt }) {
     return () => clearInterval(iv);
   }, [lit]);
 
+  // Full-bleed parallax: overscaled image pans gently toward cursor — edges never reveal.
   const onMove = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ x: py * -7, y: px * 9, on: true });
+    setTilt({ x: px, y: py, on: true });
   };
   const onLeave = () => setTilt({ x: 0, y: 0, on: false });
+  const imgT = `scale(1.09) translate(${tilt.x * -2.4}%, ${tilt.y * -2.4}%)`;
+  const genes = (t.deck && t.deck.genes) || "genów zresetowanych";
+  const genesHint = (t.deck && t.deck.genesHint) || " — kliknij";
 
   return (
     <div
@@ -77,14 +83,13 @@ function PhotoViz({ src, type, active, alt }) {
       onMouseLeave={onLeave}
       onClick={isPeptide ? () => setLit(v => !v) : undefined}
       role={isPeptide ? "button" : undefined}
-      style={{ transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
     >
-      <div className="x-photo__shine" style={{ opacity: tilt.on ? 1 : 0, transform: `translate(${tilt.y * 6}px, ${tilt.x * -6}px)` }}/>
-      <img src={src} alt={alt} className="x-photo__img"/>
+      <img src={src} alt={alt} className="x-photo__img" style={{ transform: imgT }}/>
+      <div className="x-photo__shine" style={{ opacity: tilt.on ? 0.8 : 0, transform: `translate(${tilt.x * 36}px, ${tilt.y * 36}px)` }}/>
       {isPeptide && (
-        <div className="x-photo__counter">
+        <div className={"x-photo__counter" + (lit ? " is-lit" : "")}>
           <span className="x-photo__counter-num">{count.toLocaleString("pl-PL")}</span>
-          <span className="x-photo__counter-lbl">genów zresetowanych{lit ? "" : " — kliknij"}</span>
+          <span className="x-photo__counter-lbl">{genes}{lit ? "" : genesHint}</span>
         </div>
       )}
     </div>
@@ -97,7 +102,7 @@ function SlideVisual({ type, active }) {
   useEffectP(() => { if (!active) setFired(new Set()); }, [active]);
   // Photoreal slides take priority over SVG
   if (PHOTO[type]) {
-    const alts = { hero: "Plaster X39 LifeWave", stemcells: "Aktywacja komórek macierzystych", peptide: "Peptyd miedzi GHK-Cu i DNA", cta: "Twoja droga do zdrowia" };
+    const alts = { hero: "Plaster X39 LifeWave", stemcells: "Aktywacja komórek macierzystych", peptide: "Peptyd miedzi GHK-Cu i DNA", cta: "Twoja droga do zdrowia", howto: "X39 naklejony na kark", relief: "X39 w miejscu bólu — regeneracja" };
     return <PhotoViz src={PHOTO[type]} type={type} active={active} alt={alts[type] || "X39"}/>;
   }
   const onFire = useCallbackP((id) => {
@@ -470,29 +475,45 @@ function SlideDeck() {
         </div>
       </div>
       <div className="x-deck__stage">
-        {slides.map((s, i) => (
-          <div
-            key={i}
-            className={"x-deck__slide x-deck__slide--" + s.theme + (i === idx ? " is-active" : i < idx ? " is-past" : " is-future")}
-            aria-hidden={i !== idx}
-          >
-            <div className="x-deck__slide-inner">
-              <div className="x-deck__viz"><SlideVisual type={s.visual} active={i === idx}/></div>
-              <div className="x-deck__copy">
-                <span className="x-deck__kicker">{s.kicker}</span>
-                <h2 className="x-deck__title">{s.title}</h2>
-                <p className="x-deck__body">{s.body}</p>
-                {i === total - 1 && (
-                  <div className="x-deck__cta">
-                    <a href={buyLink} target={buyLink.startsWith("http") ? "_blank" : "_self"} rel={buyLink.startsWith("http") ? "noopener" : undefined} className="x-btn x-btn--primary">{t.deck.ctaBuy}</a>
-                    <a href={teamLink} className="x-btn x-btn--ghost">{t.deck.ctaTeam}</a>
-                  </div>
-                )}
-                <span className="x-deck__hint">{i === total - 1 ? "" : "↔ klikaj elementy grafiki"}</span>
-              </div>
+        {slides.map((s, i) => {
+          const isPhoto = !!PHOTO[s.visual];
+          const isLast = i === total - 1;
+          const cta = isLast && (
+            <div className="x-deck__cta">
+              <a href={buyLink} target={buyLink.startsWith("http") ? "_blank" : "_self"} rel={buyLink.startsWith("http") ? "noopener" : undefined} className="x-btn x-btn--primary">{t.deck.ctaBuy}</a>
+              <a href={teamLink} className="x-btn x-btn--ghost">{t.deck.ctaTeam}</a>
             </div>
-          </div>
-        ))}
+          );
+          const copy = (
+            <>
+              <span className="x-deck__kicker">{s.kicker}</span>
+              <h2 className="x-deck__title">{s.title}</h2>
+              <p className="x-deck__body">{s.body}</p>
+              {cta}
+              <span className="x-deck__hint">{isLast ? "" : (s.visual === "peptide" ? t.deck.hint : (isPhoto ? "" : t.deck.hint))}</span>
+            </>
+          );
+          return (
+            <div
+              key={i}
+              className={"x-deck__slide x-deck__slide--" + s.theme + (isPhoto ? " x-deck__slide--photo" : "") + (i === idx ? " is-active" : i < idx ? " is-past" : " is-future")}
+              aria-hidden={i !== idx}
+            >
+              {isPhoto ? (
+                <>
+                  <div className="x-deck__bg"><SlideVisual type={s.visual} active={i === idx}/></div>
+                  <div className="x-deck__scrim" aria-hidden="true"/>
+                  <div className="x-deck__overlay">{copy}</div>
+                </>
+              ) : (
+                <div className="x-deck__slide-inner">
+                  <div className="x-deck__viz"><SlideVisual type={s.visual} active={i === idx}/></div>
+                  <div className="x-deck__copy">{copy}</div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
       <div className="x-deck__controls">
         <button className="x-deck__nav" onClick={prev} disabled={idx === 0} aria-label={t.deck.prev}>
