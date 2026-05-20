@@ -1637,6 +1637,22 @@ ul { list-style: none; padding: 0; margin: 0; }
   margin-top: 8px;
 }
 
+/* Static top bar for legal pages (no React) */
+.x-legal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--x-w-grid); margin: 0 auto;
+  padding: 16px var(--x-pad-x);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.x-legal-nav__logo {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--x-font-display); font-weight: 600; font-size: 18px;
+  color: var(--x-ink); letter-spacing: -0.01em; text-decoration: none;
+}
+.x-legal-nav__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--x-accent); }
+.x-legal-nav__back { font-size: 14px; font-weight: 500; color: var(--x-ink-muted-80); text-decoration: none; transition: color 160ms ease; }
+.x-legal-nav__back:hover { color: var(--x-accent); }
+
 /* Loading state */
 .x-loading-spin {
   width: 48px; height: 48px;
