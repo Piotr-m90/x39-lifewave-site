@@ -1763,38 +1763,123 @@ ul { list-style: none; padding: 0; margin: 0; }
 .x-deck__auto.is-on { background: var(--x-accent); color: #fff; }
 @media (max-width: 640px) { .x-deck__dots { max-width: 40vw; } .x-deck__dot:not(.is-active) { width: 6px; height: 6px; } }
 
-/* viz animations (active slide only) */
-.x-slide-viz .sv-float { animation: none; }
-.x-deck__slide.is-active .sv-float { animation: x-sv-float 5s ease-in-out infinite; transform-origin: center; }
-@keyframes x-sv-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.x-deck__slide.is-active .sv-beam { animation: x-sv-beam 3s ease-in-out infinite; }
-@keyframes x-sv-beam { 0%,100% { opacity: 0.4; } 50% { opacity: 0.9; } }
-.x-deck__slide.is-active .sv-pulse { animation: x-sv-pulse 2.6s ease-in-out infinite; transform-origin: center; }
-@keyframes x-sv-pulse { 0%,100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.12); } }
-.x-deck__slide.is-active .sv-rotate { animation: x-sv-rotate 22s linear infinite; }
-@keyframes x-sv-rotate { to { transform: rotate(360deg); } }
-.x-deck__slide.is-active .sv-rays { animation: x-sv-rays 8s linear infinite; transform-origin: center; }
-@keyframes x-sv-rays { to { transform: rotate(360deg); } }
-.x-deck__slide.is-active .sv-wave { animation: x-sv-wave 3s ease-in-out infinite; }
-@keyframes x-sv-wave { 0%,100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
-.x-deck__slide.is-active .sv-draw { stroke-dasharray: 600; stroke-dashoffset: 600; animation: x-sv-draw 1.6s ease-out 0.3s forwards; }
-@keyframes x-sv-draw { to { stroke-dashoffset: 0; } }
-.x-deck__slide.is-active .sv-step { opacity: 0; animation: x-deck-up 600ms ease-out both; animation-delay: var(--d, 0s); }
-.x-slide-viz .sv-step { opacity: 0; }
+/* ==========================================================================
+   INTERACTIVE VISUALIZATIONS — Hearthstone feel
+   Static base + subtle continuous motion + hover/click reactions
+   ========================================================================== */
+
+/* Interactive zone — cursor, hover lights up + scales, focus ring */
+.x-iz { cursor: pointer; transition: filter 260ms ease, transform 260ms cubic-bezier(0.34,1.56,0.64,1); transform-box: fill-box; }
+.x-iz:hover { filter: brightness(1.1) drop-shadow(0 4px 16px rgba(201,163,138,0.5)); transform: scale(1.035); }
+.x-iz:active { transform: scale(0.98); transition-duration: 80ms; }
+.x-iz:focus-visible { outline: none; filter: drop-shadow(0 0 0 2px rgba(184,146,122,0.9)); }
+.x-iz.is-fired { filter: brightness(1.06) drop-shadow(0 6px 22px rgba(201,163,138,0.55)); }
+
+/* Subtle continuous motion (gentle — base elements mostly still) */
+.x-slide-viz .sv-float, .x-slide-viz .sv-beam, .x-slide-viz .sv-pulse,
+.x-slide-viz .sv-pulse-soft, .x-slide-viz .sv-rotate-slow, .x-slide-viz .sv-rays-slow,
+.x-slide-viz .sv-waves, .x-slide-viz .sv-crys, .x-slide-viz .sv-ray { animation: none; }
+
+.x-deck__slide.is-active .sv-float { animation: x-svf 6s ease-in-out infinite; transform-origin: center; }
+@keyframes x-svf { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+.x-deck__slide.is-active .sv-beam { animation: x-svb 3.4s ease-in-out infinite; transform-origin: center top; }
+@keyframes x-svb { 0%,100% { opacity: 0.35; transform: scaleY(0.94); } 50% { opacity: 0.85; transform: scaleY(1); } }
+
+.x-deck__slide.is-active .sv-pulse { animation: x-svp 2.8s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes x-svp { 0%,100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.14); } }
+.x-deck__slide.is-active .sv-pulse-soft { animation: x-svps 4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes x-svps { 0%,100% { opacity: 0.5; transform: scale(0.96); } 50% { opacity: 0.85; transform: scale(1.06); } }
+
+.x-deck__slide.is-active .sv-rotate-slow { animation: x-svr 26s linear infinite; }
+@keyframes x-svr { to { transform: rotate(360deg); } }
+.x-deck__slide.is-active .sv-rays-slow { animation: x-svr 60s linear infinite; transform-origin: 240px 170px; }
+
+.x-deck__slide.is-active .sv-waves { animation: x-svw 3.2s ease-in-out infinite; }
+@keyframes x-svw { 0%,100% { transform: translateX(0); opacity: 0.85; } 50% { transform: translateX(6px); opacity: 1; } }
+
+/* Crystals shimmer — staggered, subtle */
+.x-deck__slide.is-active .sv-crys { animation: x-svc 2.8s ease-in-out infinite; animation-delay: calc(var(--i, 0) * 0.18s); transform-box: fill-box; transform-origin: center; }
+@keyframes x-svc { 0%,100% { opacity: 0.7; } 50% { opacity: 1; filter: brightness(1.3); } }
+
+/* Curve draw-in (once when slide active) */
+.x-slide-viz .sv-draw { stroke-dasharray: 620; stroke-dashoffset: 620; }
+.x-deck__slide.is-active .sv-draw { animation: x-svd 1.8s ease-out 0.3s forwards; }
+@keyframes x-svd { to { stroke-dashoffset: 0; } }
+
+/* Arrow draw */
+.x-slide-viz .sv-arrow { stroke-dasharray: 60; stroke-dashoffset: 60; }
+.x-deck__slide.is-active .sv-arrow { animation: x-svd 0.9s ease-out 0.5s forwards; }
+
+/* --- HOVER per scene (light/transparency shifts) --- */
+.sv-cold { transition: filter 280ms ease, opacity 280ms ease; }
+.x-iz:hover .sv-cold { filter: saturate(1.4) brightness(1.05); }
+.sv-warm { transition: filter 280ms ease; }
+.x-iz:hover .sv-warm { filter: brightness(1.15) saturate(1.2); }
+.sv-tile { transition: fill 240ms ease, stroke 240ms ease; }
+.x-iz:hover .sv-tile { fill: #FFF8F0; stroke: var(--x-accent); }
+
+/* --- CLICK reactions (.is-fired) --- */
+/* hero ripple */
+.sv-ripple { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.x-iz.is-fired .sv-ripple { animation: x-rip 1.1s ease-out forwards; }
+.x-iz.is-fired .sv-ripple--2 { animation: x-rip 1.1s ease-out 0.25s forwards; }
+@keyframes x-rip { 0% { opacity: 0.8; transform: scale(0.5); } 100% { opacity: 0; transform: scale(2.6); } }
+
+/* battery / generic fired glow on tile */
+.x-iz.is-fired .sv-tile { fill: #FFF1E2; stroke: var(--x-accent); stroke-width: 2.5; }
+
+/* agecurve + timeline tooltips — hidden, reveal on fired */
+.sv-tooltip { opacity: 0; transform: translateY(6px); transform-box: fill-box; transition: opacity 320ms ease, transform 320ms cubic-bezier(0.34,1.56,0.64,1); }
+.x-iz.is-fired .sv-tooltip { opacity: 1; transform: translateY(0); }
+.sv-tip-text { opacity: 0; transition: opacity 320ms ease; }
+.x-iz.is-fired .sv-tip-text { opacity: 1; }
+
+/* howto patch reveal */
+.sv-revealpatch { opacity: 0; transform: scale(0.4); transform-box: fill-box; transform-origin: center; transition: opacity 360ms ease, transform 360ms cubic-bezier(0.34,1.56,0.64,1); }
+.x-iz.is-fired .sv-revealpatch { opacity: 1; transform: scale(1); }
+.sv-point { transition: opacity 280ms ease; }
+.x-iz.is-fired .sv-point { opacity: 0.25; }
+
+/* guarantee checkmark draw on fired */
+.sv-check { stroke-dasharray: 80; stroke-dashoffset: 80; }
+.x-iz.is-fired .sv-check { animation: x-svd 0.6s ease-out forwards; }
+
+/* peptide DNA glow when reset */
+.sv-dna { transition: filter 600ms ease; }
+.sv-dna.is-reset { filter: drop-shadow(0 0 10px rgba(232,197,168,0.8)) brightness(1.15); }
+.sv-count-num { transition: fill 300ms ease; }
+
+/* stemcells link pulse on fired */
+.sv-link { transition: opacity 300ms ease, stroke-width 300ms ease; }
+.x-iz.is-fired ~ g .sv-link, .x-iz.is-fired .sv-link { opacity: 0.8; }
+
 @media (prefers-reduced-motion: reduce) {
   .x-deck__slide.is-active .sv-float,
   .x-deck__slide.is-active .sv-beam,
   .x-deck__slide.is-active .sv-pulse,
-  .x-deck__slide.is-active .sv-rotate,
-  .x-deck__slide.is-active .sv-rays,
-  .x-deck__slide.is-active .sv-wave { animation: none; }
-  .x-deck__slide.is-active .sv-draw { stroke-dashoffset: 0; animation: none; }
-  .x-deck__slide.is-active .sv-step, .x-slide-viz .sv-step { opacity: 1; animation: none; }
+  .x-deck__slide.is-active .sv-pulse-soft,
+  .x-deck__slide.is-active .sv-rotate-slow,
+  .x-deck__slide.is-active .sv-rays-slow,
+  .x-deck__slide.is-active .sv-waves,
+  .x-deck__slide.is-active .sv-crys { animation: none; }
+  .x-slide-viz .sv-draw, .x-slide-viz .sv-arrow { stroke-dashoffset: 0; }
+  .x-deck__slide.is-active .sv-draw, .x-deck__slide.is-active .sv-arrow { animation: none; }
+  .x-iz { transition: none; }
   .x-deck__slide.is-active .x-deck__kicker,
   .x-deck__slide.is-active .x-deck__title,
   .x-deck__slide.is-active .x-deck__body,
   .x-deck__slide.is-active .x-deck__cta { animation: none; }
 }
+
+/* Hint under copy */
+.x-deck__hint {
+  display: block; margin-top: 20px;
+  font-size: 12px; letter-spacing: 0.02em;
+  color: var(--x-ink-muted-48);
+  opacity: 0.8;
+}
+.x-deck__slide--dark .x-deck__hint { color: var(--x-body-muted); }
 
 /* "Poznaj projekt" button on index hero */
 .x-hero__deck-link {
