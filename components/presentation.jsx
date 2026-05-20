@@ -80,7 +80,7 @@ function PhotoViz({ src, type, active, alt }) {
       style={{ transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
     >
       <div className="x-photo__shine" style={{ opacity: tilt.on ? 1 : 0, transform: `translate(${tilt.y * 6}px, ${tilt.x * -6}px)` }}/>
-      <img src={src} alt={alt} className="x-photo__img" loading="lazy"/>
+      <img src={src} alt={alt} className="x-photo__img"/>
       {isPeptide && (
         <div className="x-photo__counter">
           <span className="x-photo__counter-num">{count.toLocaleString("pl-PL")}</span>
