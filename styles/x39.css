@@ -2010,6 +2010,31 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .x-deck__slide--dark .x-deck__hint { color: var(--x-body-muted); }
 
+/* Klikalny link per-slajd (źródła / kup) */
+.x-deck__slidelink {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 22px; padding: 11px 20px;
+  border-radius: var(--x-r-pill);
+  border: 1px solid var(--x-accent);
+  color: var(--x-accent-ink);
+  font-size: 14px; font-weight: 500; letter-spacing: -0.01em; text-decoration: none;
+  transition: transform 180ms cubic-bezier(0.34,1.56,0.64,1), background 200ms ease, box-shadow 240ms ease, color 200ms ease;
+}
+.x-deck__slidelink span { transition: transform 180ms ease; }
+.x-deck__slidelink:hover { background: var(--x-accent); color: #fff; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,163,138,0.45); }
+.x-deck__slidelink:hover span { transform: translateX(3px); }
+.x-deck__slidelink:active { transform: scale(0.97); }
+/* na foto/dark — jaśniejszy akcent + lekko przezroczyste tło dla czytelności */
+.x-deck__slide--photo .x-deck__slidelink,
+.x-deck__slide--dark .x-deck__slidelink { color: var(--x-accent-on-dark); border-color: rgba(232,197,168,0.6); background: rgba(255,255,255,0.06); }
+.x-deck__slide--photo .x-deck__slidelink:hover,
+.x-deck__slide--dark .x-deck__slidelink:hover { background: var(--x-accent-on-dark); color: #1d1d1f; }
+/* foto na jasnym/parchment theme — ciemniejszy akcent */
+.x-deck__slide--photo.x-deck__slide--light .x-deck__slidelink,
+.x-deck__slide--photo.x-deck__slide--parchment .x-deck__slidelink { color: var(--x-accent-ink); border-color: var(--x-accent); background: rgba(255,255,255,0.55); }
+.x-deck__slide--photo.x-deck__slide--light .x-deck__slidelink:hover,
+.x-deck__slide--photo.x-deck__slide--parchment .x-deck__slidelink:hover { background: var(--x-accent); color: #fff; }
+
 /* Persistent compliance notice (every slide, top-center) */
 .x-deck__notice {
   position: absolute; top: 17px; left: 50%; transform: translateX(-50%);

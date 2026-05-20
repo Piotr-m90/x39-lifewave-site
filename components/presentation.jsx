@@ -61,6 +61,16 @@ const PHOTO = {
   cta: "assets/cta-light.webp",
   howto: "assets/neck.webp",
   relief: "assets/painrelief.webp",
+  chemistry: "assets/chemistry.webp",
+  battery: "assets/battery.webp",
+  radio: "assets/radio.webp",
+  benefits: "assets/benefits.webp",
+  agecurve: "assets/agecurve.webp",
+  comparison: "assets/comparison.webp",
+  reverseclock: "assets/reverseclock.webp",
+  timeline: "assets/timeline.webp",
+  science: "assets/science.webp",
+  guarantee: "assets/guarantee.webp",
 };
 
 function PhotoViz({ src, type, active, alt }) {
@@ -116,7 +126,7 @@ function SlideVisual({ type, active }) {
   useEffectP(() => { if (!active) setFired(new Set()); }, [active]);
   // Photoreal slides take priority over SVG
   if (PHOTO[type]) {
-    const alts = { hero: "Plaster X39 LifeWave", stemcells: "Aktywacja komórek macierzystych", peptide: "Peptyd miedzi GHK-Cu i DNA", cta: "Twoja droga do zdrowia", howto: "X39 naklejony na kark", relief: "X39 w miejscu bólu — regeneracja" };
+    const alts = { hero: "Plaster X39 LifeWave", stemcells: "Aktywacja komórek macierzystych", peptide: "Peptyd miedzi GHK-Cu i DNA", cta: "Twoja droga do zdrowia", howto: "X39 naklejony na kark", relief: "X39 w miejscu bólu — regeneracja", chemistry: "Chemia kontra światło", battery: "Ciało jako bateria energii", radio: "Analogia kryształowego radia", benefits: "Regeneracja komórek i kolagenu", agecurve: "Spadek komórek macierzystych z wiekiem", comparison: "Iniekcje kontra X39", reverseclock: "Odwracanie zegara biologicznego", timeline: "Czego się spodziewać w czasie", science: "Nauka i badania kliniczne", guarantee: "90 dni gwarancji bez ryzyka" };
     return <PhotoViz src={PHOTO[type]} type={type} active={active} alt={alts[type] || "X39"}/>;
   }
   const onFire = useCallbackP((id) => {
@@ -476,6 +486,15 @@ function SlideDeck() {
 
   const buyLink = (window.X39_CONFIG && window.X39_CONFIG.links.buy) || "index.html#buy";
   const teamLink = "zespol.html";
+  // Opcjonalny link per-slajd. kind: buy|interview|booking → z config; albo href bezpośredni (np. źródła).
+  const resolveLink = (lnk) => {
+    if (!lnk) return null;
+    const cfg = (window.X39_CONFIG && window.X39_CONFIG.links) || {};
+    if (lnk.kind === "buy") return buyLink;
+    if (lnk.kind === "interview") return cfg.interview || null;
+    if (lnk.kind === "booking") return cfg.tidycal || "zespol.html";
+    return lnk.href || null;
+  };
 
   return (
     <div className="x-deck" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
@@ -493,6 +512,7 @@ function SlideDeck() {
         {slides.map((s, i) => {
           const isPhoto = !!PHOTO[s.visual];
           const isLast = i === total - 1;
+          const linkHref = resolveLink(s.link);
           const cta = isLast && (
             <div className="x-deck__cta">
               <a href={buyLink} target={buyLink.startsWith("http") ? "_blank" : "_self"} rel={buyLink.startsWith("http") ? "noopener" : undefined} className="x-btn x-btn--primary">{t.deck.ctaBuy}</a>
@@ -504,6 +524,13 @@ function SlideDeck() {
               <span className="x-deck__kicker">{s.kicker}</span>
               <h2 className="x-deck__title">{s.title}</h2>
               <p className="x-deck__body">{s.body}</p>
+              {!isLast && s.link && linkHref && (
+                <a className="x-deck__slidelink" href={linkHref}
+                   target={linkHref.startsWith("http") ? "_blank" : "_self"}
+                   rel={linkHref.startsWith("http") ? "noopener noreferrer" : undefined}>
+                  {s.link.label} <span aria-hidden="true">→</span>
+                </a>
+              )}
               {cta}
               {isLast && (
                 <div className="x-deck__legal">
