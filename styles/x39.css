@@ -1996,6 +1996,24 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .x-deck__slide--dark .x-deck__hint { color: var(--x-body-muted); }
 
+/* Persistent compliance notice (every slide, top-center) */
+.x-deck__notice {
+  position: absolute; top: 17px; left: 50%; transform: translateX(-50%);
+  margin: 0; z-index: 14; pointer-events: none;
+  max-width: 50%; text-align: center;
+  font-size: 11px; line-height: 1.3; letter-spacing: 0.01em;
+  color: var(--x-ink-muted-48);
+}
+.x-deck:has(.x-deck__slide--dark.is-active) .x-deck__notice { color: rgba(255,255,255,0.55); }
+@media (max-width: 980px) { .x-deck__notice { display: none; } }
+
+/* Full disclaimer on the final CTA slide */
+.x-deck__legal { margin-top: 26px; max-width: 470px; }
+.x-deck__legal p { margin: 7px 0; font-size: 11.5px; line-height: 1.45; color: var(--x-ink-muted-48); }
+.x-deck__slide--dark .x-deck__legal p { color: var(--x-body-muted); }
+.x-deck__slide--photo .x-deck__legal p { color: rgba(255,255,255,0.62); }
+@media (max-width: 880px) { .x-deck__legal { margin: 22px auto 0; } }
+
 /* "Poznaj projekt" button on index hero */
 .x-hero__deck-link {
   display: inline-flex; align-items: center; gap: 11px;

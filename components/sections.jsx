@@ -609,6 +609,7 @@ function Footer() {
         <div className="x-footer__disclaimer">
           <p>{t.footer.disclaimerMed}</p>
           <p>{t.footer.disclaimerMlm}</p>
+          <p>{t.footer.disclaimerAffiliate}</p>
         </div>
         <div className="x-footer__bottom">
           <div>{t.footer.legal}</div>

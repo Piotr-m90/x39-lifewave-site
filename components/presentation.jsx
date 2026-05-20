@@ -466,6 +466,7 @@ function SlideDeck() {
   return (
     <div className="x-deck" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div className="x-deck__progress"><div className="x-deck__progress-fill" style={{ width: ((idx + 1) / total * 100) + "%" }}/></div>
+      <p className="x-deck__notice" aria-hidden="true">{t.deck.notice}</p>
       <div className="x-deck__top">
         <a href="index.html" className="x-deck__brand"><span className="x-nav-global__dot" aria-hidden="true"></span> X39</a>
         <div className="x-deck__top-right">
@@ -490,6 +491,12 @@ function SlideDeck() {
               <h2 className="x-deck__title">{s.title}</h2>
               <p className="x-deck__body">{s.body}</p>
               {cta}
+              {isLast && (
+                <div className="x-deck__legal">
+                  <p>{t.deck.legalMed}</p>
+                  <p>{t.deck.legalMlm}</p>
+                </div>
+              )}
               <span className="x-deck__hint">{isLast ? "" : (s.visual === "peptide" ? t.deck.hint : (isPhoto ? "" : t.deck.hint))}</span>
             </>
           );
